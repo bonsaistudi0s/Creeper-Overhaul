@@ -24,13 +24,16 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
+import tech.thatgravyboat.creeperoverhaul.client.ClientConfig;
 import tech.thatgravyboat.creeperoverhaul.common.Events;
 import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
@@ -56,6 +59,9 @@ public class Creepers {
         ModEntities.ENTITY_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_CONFIG);
+
         modEventBus.addListener(this::addAttributes);
         modEventBus.addListener(this::onComplete);
         modEventBus.addListener(this::onCommonSetup);
@@ -117,7 +123,7 @@ public class Creepers {
         SpawnPlacements.register(ModEntities.JUNGLE_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING,
                 Creepers::checkMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.BAMBOO_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING,
-                Creepers::checkMonsterSpawnRulesAbove);
+                Creepers::checkDayMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.DESERT_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Creepers::checkMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.BADLANDS_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
@@ -127,7 +133,7 @@ public class Creepers {
         SpawnPlacements.register(ModEntities.SAVANNAH_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Creepers::checkMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.MUSHROOM_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Creepers::checkMonsterSpawnRulesAbove);
+                Creepers::checkDayMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.SWAMP_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Creepers::checkMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.DRIPSTONE_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
@@ -141,7 +147,7 @@ public class Creepers {
         SpawnPlacements.register(ModEntities.BEACH_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Creepers::checkMonsterSpawnRulesAbove);
         SpawnPlacements.register(ModEntities.SNOWY_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Creepers::checkMonsterSpawnRulesAbove);
+                Creepers::checkDayMonsterSpawnRulesAbove);
     }
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
@@ -175,7 +181,7 @@ public class Creepers {
                 addCreeper(event, ModEntities.BADLANDS_CREEPER);
                 addCreeper(event, ModEntities.CAVE_CREEPER);
             }
-            case MUSHROOM -> addCreeper(event, ModEntities.MUSHROOM_CREEPER);
+            case MUSHROOM -> event.getSpawns().addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.MUSHROOM_CREEPER.get(),25, 2, 2));
             case TAIGA -> {
                 addCreeper(event, ModEntities.SPRUCE_CREEPER);
                 addCreeper(event, ModEntities.CAVE_CREEPER);
@@ -225,6 +231,10 @@ public class Creepers {
 
     public static boolean checkMonsterSpawnRulesAbove(EntityType<? extends Monster> pType, ServerLevelAccessor pLevel, MobSpawnType pReason, BlockPos pPos, Random pRandom) {
         return pPos.getY() > pLevel.getSeaLevel() && pLevel.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(pLevel, pPos, pRandom) && Monster.checkMobSpawnRules(pType, pLevel, pReason, pPos, pRandom);
+    }
+
+    public static boolean checkDayMonsterSpawnRulesAbove(EntityType<? extends Monster> pType, ServerLevelAccessor pLevel, MobSpawnType pReason, BlockPos pPos, Random pRandom) {
+        return pPos.getY() > pLevel.getSeaLevel() && pLevel.getDifficulty() != Difficulty.PEACEFUL && Monster.checkMobSpawnRules(pType, pLevel, pReason, pPos, pRandom);
     }
 
     private <E extends BaseCreeper> void addCreeper(BiomeLoadingEvent event, RegistryObject<EntityType<E>> entityType) {

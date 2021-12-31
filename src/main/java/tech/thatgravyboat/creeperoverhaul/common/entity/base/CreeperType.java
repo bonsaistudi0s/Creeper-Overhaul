@@ -1,14 +1,15 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.base;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public record CreeperType(
@@ -22,6 +23,7 @@ public record CreeperType(
         Collection<EntityType<?>> entitiesAfraidOf,
         Collection<MobEffectInstance> potionsWhenDead,
         Collection<Class<? extends LivingEntity>> entities,
+        Collection<DamageSource> immunities,
         AttributeSupplier attributes,
         boolean shearable
     ) {
@@ -34,10 +36,11 @@ public record CreeperType(
         private ResourceLocation shearedModel;
         private ResourceLocation animation;
         private int melee = 0;
-        private List<EntityType<?>> afraidOf = new ArrayList<>();
-        private List<MobEffectInstance> potionsWhenDying = new ArrayList<>();
-        private List<Class<? extends LivingEntity>> attackingEntities = new ArrayList<>();
-        private AttributeSupplier attributes;
+        private final List<EntityType<?>> afraidOf = new ArrayList<>();
+        private final List<MobEffectInstance> potionsWhenDying = new ArrayList<>();
+        private final List<Class<? extends LivingEntity>> attackingEntities = new ArrayList<>();
+        private final List<DamageSource> immunities = new ArrayList<>();
+        private final AttributeSupplier.Builder attributes = BaseCreeper.createAttributes();
         private boolean shearable;
 
         public Builder setTexture(ResourceLocation texture) {
@@ -90,8 +93,13 @@ public record CreeperType(
             return this;
         }
 
-        public Builder setAttributes(AttributeSupplier attributes) {
-            this.attributes = attributes;
+        public Builder addImmunity(DamageSource source) {
+            this.immunities.add(source);
+            return this;
+        }
+
+        public Builder addAttribute(Attribute attribute, double value) {
+            this.attributes.add(attribute, value);
             return this;
         }
 
@@ -101,7 +109,7 @@ public record CreeperType(
         }
 
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, afraidOf, potionsWhenDying, attackingEntities, attributes, shearable);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, afraidOf, potionsWhenDying, attackingEntities, immunities, attributes.build(), shearable);
         }
     }
 

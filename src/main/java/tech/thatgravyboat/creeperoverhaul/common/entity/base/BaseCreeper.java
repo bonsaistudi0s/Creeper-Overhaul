@@ -70,7 +70,8 @@ public class BaseCreeper extends Monster implements PowerableMob, IAnimatable {
     public BaseCreeper(EntityType<? extends BaseCreeper> entityType, Level level, CreeperType type) {
         super(entityType, level);
         this.type = type;
-        this.type.entities().forEach(e -> this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, e, true)));
+        if (!level.isClientSide) this.type.entities().forEach(e ->
+                this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, e, true)));
     }
 
     //region Goals And Data
@@ -189,7 +190,7 @@ public class BaseCreeper extends Monster implements PowerableMob, IAnimatable {
         if (!this.level.isClientSide) {
             Explosion.BlockInteraction interaction = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             this.dead = true;
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), 3f * (this.isPowered() ? 2.0F : 1.0F), interaction);
+            this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius * (this.isPowered() ? 2.0F : 1.0F), interaction);
             this.discard();
 
             Collection<MobEffectInstance> collection = this.getActiveEffects().stream().map(MobEffectInstance::new).toList();

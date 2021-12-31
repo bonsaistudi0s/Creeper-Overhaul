@@ -1,6 +1,7 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -8,7 +9,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Stray;
 import net.minecraftforge.common.ForgeMod;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
-import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 
 public class CreeperTypes {
@@ -21,7 +21,6 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes().build())
             .build();
 
     public static final CreeperType BAMBOO = new CreeperType.Builder()
@@ -32,11 +31,9 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/bamboo.animation.json"))
             .setMelee(9)
             .addAfraidOf(EntityType.PANDA)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 15)
-                    .add(Attributes.ATTACK_DAMAGE, 2)
-                    .add(ForgeMod.REACH_DISTANCE.get(), 2)
-                    .build())
+            .addAttribute(Attributes.MAX_HEALTH, 15)
+            .addAttribute(Attributes.ATTACK_DAMAGE, 2)
+            .addAttribute(ForgeMod.REACH_DISTANCE.get(), 2)
             .build();
 
     public static final CreeperType DESERT = new CreeperType.Builder()
@@ -49,9 +46,8 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-                    .build())
+            .addImmunity(DamageSource.CACTUS)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
             .build();
 
     public static final CreeperType BADLANDS = new CreeperType.Builder()
@@ -64,10 +60,9 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 30)
-                    .add(Attributes.KNOCKBACK_RESISTANCE, 1)
-                    .build())
+            .addImmunity(DamageSource.CACTUS)
+            .addAttribute(Attributes.MAX_HEALTH, 30)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
             .build();
 
     public static final CreeperType HILLS = new CreeperType.Builder()
@@ -76,10 +71,8 @@ public class CreeperTypes {
             .setChargedTexture(modLoc("textures/entity/armor/creeper_armor_2.png"))
             .setModel(modLoc("geo/hills.geo.json"))
             .setAnimation(modLoc("animations/creeper.animation.json"))
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 30)
-                    .add(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-                    .build())
+            .addAttribute(Attributes.MAX_HEALTH, 30)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
             .build();
 
     public static final CreeperType SAVANNAH = new CreeperType.Builder()
@@ -89,11 +82,9 @@ public class CreeperTypes {
             .setModel(modLoc("geo/savannah.geo.json"))
             .setAnimation(modLoc("animations/savannah.animation.json"))
             .setMelee(5)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 25)
-                    .add(Attributes.ATTACK_DAMAGE, 3)
-                    .add(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-                    .build())
+            .addAttribute(Attributes.MAX_HEALTH, 25)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
+            .addAttribute(Attributes.ATTACK_DAMAGE, 3)
             .build();
 
     public static final CreeperType MUSHROOM = new CreeperType.Builder()
@@ -103,7 +94,6 @@ public class CreeperTypes {
             .setModel(modLoc("geo/mushroom.geo.json"))
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addPotionsWhenDying(new MobEffectInstance(MobEffects.POISON, 100, 1))
-            .setAttributes(BaseCreeper.createAttributes().build())
             .build();
 
     public static final CreeperType SWAMP = new CreeperType.Builder()
@@ -114,9 +104,7 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(ForgeMod.SWIM_SPEED.get(), 2)
-                    .build())
+            .addAttribute(ForgeMod.SWIM_SPEED.get(), 2)
             .build();
 
     public static final CreeperType DRIPSTONE = new CreeperType.Builder()
@@ -127,9 +115,7 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 12)
-                    .build())
+            .addAttribute(Attributes.MAX_HEALTH, 12)
             .build();
 
     public static final CreeperType CAVE = new CreeperType.Builder()
@@ -140,10 +126,8 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 25)
-                    .add(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-                    .build())
+            .addAttribute(Attributes.MAX_HEALTH, 25)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
             .build();
 
     public static final CreeperType DARK_OAK = new CreeperType.Builder()
@@ -154,7 +138,6 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes().build())
             .build();
 
     public static final CreeperType SPRUCE = new CreeperType.Builder()
@@ -165,7 +148,6 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes().build())
             .build();
 
     public static final CreeperType BEACH = new CreeperType.Builder()
@@ -176,10 +158,9 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.MAX_HEALTH, 15)
-                    .add(ForgeMod.SWIM_SPEED.get(), 2)
-                    .build())
+            .addImmunity(DamageSource.DROWN)
+            .addAttribute(Attributes.MAX_HEALTH, 15)
+            .addAttribute(ForgeMod.SWIM_SPEED.get(), 2)
             .build();
 
     public static final CreeperType SNOWY = new CreeperType.Builder()
@@ -189,9 +170,7 @@ public class CreeperTypes {
             .setModel(modLoc("geo/snowy.geo.json"))
             .setAnimation(modLoc("animations/snowy.animation.json"))
             .setMelee(5)
-            .setAttributes(BaseCreeper.createAttributes()
-                    .add(Attributes.ATTACK_DAMAGE, 4)
-                    .build())
+            .addAttribute(Attributes.ATTACK_DAMAGE, 4)
             .addAttackingEntities(Stray.class)
             .build();
 

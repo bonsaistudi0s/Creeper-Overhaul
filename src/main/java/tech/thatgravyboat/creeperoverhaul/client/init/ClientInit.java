@@ -2,7 +2,6 @@ package tech.thatgravyboat.creeperoverhaul.client.init;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -16,9 +15,8 @@ import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.checkerframework.checker.units.qual.C;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
+import tech.thatgravyboat.creeperoverhaul.client.ClientConfig;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperModel;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperRenderer;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.replaced.ReplacedCreeperRenderer;
@@ -59,7 +57,7 @@ public class ClientInit {
         EntityRenderers.register(ModEntities.SPRUCE_CREEPER.get(), createRenderer(CreeperTypes.SPRUCE));
         EntityRenderers.register(ModEntities.BEACH_CREEPER.get(), createRenderer(CreeperTypes.BEACH));
         EntityRenderers.register(ModEntities.SNOWY_CREEPER.get(), createRenderer(CreeperTypes.SNOWY));
-        EntityRenderers.register(EntityType.CREEPER, ReplacedCreeperRenderer::new);
+        if (ClientConfig.REPLACE_DEFAULT_CREEPER.get().equals(Boolean.TRUE)) EntityRenderers.register(EntityType.CREEPER, ReplacedCreeperRenderer::new);
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TINY_CACTUS.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TINY_CACTUS_POT.get(), RenderType.cutout());
     }
