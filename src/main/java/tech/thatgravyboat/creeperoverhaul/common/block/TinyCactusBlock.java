@@ -43,7 +43,7 @@ public class TinyCactusBlock extends BushBlock implements Wearable {
 
     @Override
     protected boolean mayPlaceOn(BlockState pState, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        return pState.is(Blocks.SAND) || pState.is(Blocks.RED_SAND) || pState.is(Blocks.TERRACOTTA) || pState.is(Blocks.WHITE_TERRACOTTA) || pState.is(Blocks.ORANGE_TERRACOTTA) || pState.is(Blocks.MAGENTA_TERRACOTTA) || pState.is(Blocks.LIGHT_BLUE_TERRACOTTA) || pState.is(Blocks.YELLOW_TERRACOTTA) || pState.is(Blocks.LIME_TERRACOTTA) || pState.is(Blocks.PINK_TERRACOTTA) || pState.is(Blocks.GRAY_TERRACOTTA) || pState.is(Blocks.LIGHT_GRAY_TERRACOTTA) || pState.is(Blocks.CYAN_TERRACOTTA) || pState.is(Blocks.PURPLE_TERRACOTTA) || pState.is(Blocks.BLUE_TERRACOTTA) || pState.is(Blocks.BROWN_TERRACOTTA) || pState.is(Blocks.GREEN_TERRACOTTA) || pState.is(Blocks.RED_TERRACOTTA) || pState.is(Blocks.BLACK_TERRACOTTA) || pState.is(BlockTags.DIRT);
+        return pState.is(Blocks.CACTUS) || pState.is(Blocks.SAND) || pState.is(Blocks.RED_SAND) || pState.is(Blocks.TERRACOTTA) || pState.is(Blocks.WHITE_TERRACOTTA) || pState.is(Blocks.ORANGE_TERRACOTTA) || pState.is(Blocks.MAGENTA_TERRACOTTA) || pState.is(Blocks.LIGHT_BLUE_TERRACOTTA) || pState.is(Blocks.YELLOW_TERRACOTTA) || pState.is(Blocks.LIME_TERRACOTTA) || pState.is(Blocks.PINK_TERRACOTTA) || pState.is(Blocks.GRAY_TERRACOTTA) || pState.is(Blocks.LIGHT_GRAY_TERRACOTTA) || pState.is(Blocks.CYAN_TERRACOTTA) || pState.is(Blocks.PURPLE_TERRACOTTA) || pState.is(Blocks.BLUE_TERRACOTTA) || pState.is(Blocks.BROWN_TERRACOTTA) || pState.is(Blocks.GREEN_TERRACOTTA) || pState.is(Blocks.RED_TERRACOTTA) || pState.is(Blocks.BLACK_TERRACOTTA) || pState.is(BlockTags.DIRT);
     }
 
 
