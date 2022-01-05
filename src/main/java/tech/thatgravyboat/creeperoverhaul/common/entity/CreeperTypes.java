@@ -138,6 +138,7 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
+            .addInflictingPotion(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0))
             .build();
 
     public static final CreeperType SPRUCE = new CreeperType.Builder()

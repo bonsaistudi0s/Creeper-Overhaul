@@ -21,6 +21,7 @@ public record CreeperType(
         ResourceLocation animation,
         int melee,
         Collection<EntityType<?>> entitiesAfraidOf,
+        Collection<MobEffectInstance> inflictingPotions,
         Collection<MobEffectInstance> potionsWhenDead,
         Collection<Class<? extends LivingEntity>> entities,
         Collection<DamageSource> immunities,
@@ -37,6 +38,7 @@ public record CreeperType(
         private ResourceLocation animation;
         private int melee = 0;
         private final List<EntityType<?>> afraidOf = new ArrayList<>();
+        private final List<MobEffectInstance> inflictingPotions = new ArrayList<>();
         private final List<MobEffectInstance> potionsWhenDying = new ArrayList<>();
         private final List<Class<? extends LivingEntity>> attackingEntities = new ArrayList<>();
         private final List<DamageSource> immunities = new ArrayList<>();
@@ -83,6 +85,11 @@ public record CreeperType(
             return this;
         }
 
+        public Builder addInflictingPotion(MobEffectInstance potion) {
+            this.inflictingPotions.add(potion);
+            return this;
+        }
+
         public Builder addPotionsWhenDying(MobEffectInstance potion) {
             this.potionsWhenDying.add(potion);
             return this;
@@ -109,7 +116,7 @@ public record CreeperType(
         }
 
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, afraidOf, potionsWhenDying, attackingEntities, immunities, attributes.build(), shearable);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes.build(), shearable);
         }
     }
 

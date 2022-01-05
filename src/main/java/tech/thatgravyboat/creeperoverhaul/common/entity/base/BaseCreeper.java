@@ -177,24 +177,19 @@ public class BaseCreeper extends Monster implements PowerableMob, IAnimatable {
         super.tick();
     }
 
-    @Override
-    public void die(@NotNull DamageSource source) {
-        super.die(source);
-        if (!getCreeperType().potionsWhenDead().isEmpty()){
-            //copy the effects
-            summonCloudWithEffects(getCreeperType().potionsWhenDead().stream().map(MobEffectInstance::new).toList());
-        }
-    }
-
     public void explode() {
         if (!this.level.isClientSide) {
             Explosion.BlockInteraction interaction = ForgeEventFactory.getMobGriefingEvent(this.level, this) ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
             this.dead = true;
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius * (this.isPowered() ? 2.0F : 1.0F), interaction);
+            Explosion explosion = this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius * (this.isPowered() ? 2.0F : 1.0F), interaction);
             this.discard();
-
+            explosion.getHitPlayers().keySet().forEach(player -> {
+                Collection<MobEffectInstance> inflictingPotions = this.type.inflictingPotions().stream().map(MobEffectInstance::new).toList();
+                inflictingPotions.forEach(player::addEffect);
+            });
             Collection<MobEffectInstance> collection = this.getActiveEffects().stream().map(MobEffectInstance::new).toList();
             summonCloudWithEffects(collection);
+            summonCloudWithEffects(getCreeperType().potionsWhenDead().stream().map(MobEffectInstance::new).toList());
         }
     }
 
