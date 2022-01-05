@@ -1,0 +1,84 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.unknown",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 3.5,
+				"visible_bounds_offset": [0, 1.25, 0]
+			},
+			"bones": [
+				{
+					"name": "main",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "leg4",
+					"parent": "main",
+					"pivot": [2, 4, -3],
+					"cubes": [
+						{"origin": [0, 0, -6], "size": [5, 5, 4], "uv": [32, 20]},
+						{"origin": [0, 0, -6], "size": [5, 5, 4], "inflate": 2, "uv": [12, 119]}
+					]
+				},
+				{
+					"name": "leg3",
+					"parent": "main",
+					"pivot": [-2, 4, -3],
+					"cubes": [
+						{"origin": [-5, 0, -6], "size": [5, 5, 4], "uv": [0, 34]},
+						{"origin": [-5, 0, -6], "size": [5, 5, 4], "inflate": 2, "uv": [12, 119]}
+					]
+				},
+				{
+					"name": "leg2",
+					"parent": "main",
+					"pivot": [2, 4, 3],
+					"cubes": [
+						{"origin": [0, 0, 2], "size": [5, 5, 4], "uv": [14, 41]},
+						{"origin": [0, 0, 2], "size": [5, 5, 4], "inflate": 2, "uv": [12, 119]}
+					]
+				},
+				{
+					"name": "leg1",
+					"parent": "main",
+					"pivot": [-2, 4, 3],
+					"cubes": [
+						{"origin": [-5, 0, 2], "size": [5, 5, 4], "uv": [42, 0]},
+						{"origin": [-5, 0, 2], "size": [5, 5, 4], "inflate": 2, "uv": [12, 119]}
+					]
+				},
+				{
+					"name": "body",
+					"parent": "main",
+					"pivot": [0, 5, 0],
+					"cubes": [
+						{"origin": [-4, 4, -2], "size": [8, 11, 4], "uv": [28, 30]},
+						{"origin": [-4, 4, -2], "size": [8, 11, 4], "inflate": 2, "uv": [0, 113]}
+					]
+				},
+				{
+					"name": "head",
+					"parent": "body",
+					"pivot": [0, 15, 0],
+					"cubes": [
+						{"origin": [-4, 15, -4], "size": [8, 6, 8], "uv": [0, 20]},
+						{"origin": [-4, 15, -4], "size": [8, 2, 8], "inflate": 2, "uv": [0, 118]}
+					]
+				},
+				{
+					"name": "mushroom",
+					"parent": "head",
+					"pivot": [0, 21, 0],
+					"cubes": [
+						{"origin": [-7, 21, -7], "size": [14, 6, 14], "uv": [0, 0]},
+						{"origin": [-7, 21, -7], "size": [14, 6, 14], "inflate": 2, "uv": [0, 108]}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "creeperoverhaul",
+  "version": "${version}",
+
+  "name": "Creeper Overhaul",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Artist/Creator - Joosh",
+    "Dev - ThatGravyBoat"
+  ],
+
+  "license": "ARR",
+  "icon": "assets/creeperoverhaul/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "tech.thatgravyboat.creeperoverhaul.Creepers"
+    ],
+    "client": [
+      "tech.thatgravyboat.creeperoverhaul.client.init.ClientInit"
+    ]
+  },
+  "mixins": [
+    "creeperoverhaul.mixins.json"
+  ],
+  "accessWidener" : "creeperoverhaul.accesswidener",
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  }
+}
