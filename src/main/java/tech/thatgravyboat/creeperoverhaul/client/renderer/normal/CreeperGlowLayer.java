@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
+import tech.thatgravyboat.creeperoverhaul.client.init.ClientInit;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 
@@ -24,12 +25,13 @@ public class CreeperGlowLayer<E extends BaseCreeper> extends GeoLayerRenderer<E>
         CreeperType type = creeper.getCreeperType();
 
         GeoModel normalModel = this.getEntityModel().getModel(type.model());
-        VertexConsumer glowConsumer = buffer.getBuffer(RenderType.eyes(type.glowingTexture()));
+        VertexConsumer glowConsumer = buffer.getBuffer(ClientInit.RenderTypes.getTransparentEyes(type.glowingTexture()));
 
+        float f = creeper.getSwelling(partialTicks);
         getRenderer().render(normalModel, creeper, partialTicks,
                 null, stack, null, glowConsumer,
                 packedLightIn, OverlayTexture.NO_OVERLAY,
-                1f, 1f, 1f, 1f);
+                1f, 1f, 1f, f);
 
     }
 }

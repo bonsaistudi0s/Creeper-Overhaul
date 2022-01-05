@@ -7,7 +7,9 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Stray;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeMod;
+import org.openjdk.nashorn.internal.ir.Block;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 
@@ -94,6 +96,7 @@ public class CreeperTypes {
             .setModel(modLoc("geo/mushroom.geo.json"))
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addPotionsWhenDying(new MobEffectInstance(MobEffects.POISON, 100, 1))
+            .setDirtReplacement(() -> Blocks.MYCELIUM)
             .build();
 
     public static final CreeperType SWAMP = new CreeperType.Builder()

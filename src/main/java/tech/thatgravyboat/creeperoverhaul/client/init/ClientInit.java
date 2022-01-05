@@ -92,5 +92,10 @@ public class ClientInit {
                             .createCompositeState(false)
             );
         }
+
+        public static RenderType getTransparentEyes(ResourceLocation resourceLocation) {
+            RenderStateShard.TextureStateShard renderstateshard$texturestateshard = new RenderStateShard.TextureStateShard(resourceLocation, false, false);
+            return create("eyes", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(RENDERTYPE_EYES_SHADER).setTextureState(renderstateshard$texturestateshard).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setWriteMaskState(COLOR_WRITE).createCompositeState(false));
+        }
     }
 }

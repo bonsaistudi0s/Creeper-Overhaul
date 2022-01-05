@@ -12,6 +12,7 @@ import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
+import tech.thatgravyboat.creeperoverhaul.client.init.ClientInit;
 import tech.thatgravyboat.creeperoverhaul.common.entity.ReplacedCreeper;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -28,12 +29,13 @@ public class ReplacedCreeperGlowLayer extends GeoLayerRenderer {
         if (entity instanceof Creeper creeper && creeper.isPowered()) {
 
             GeoModel normalModel = this.getEntityModel().getModel(this.getEntityModel().getModelLocation(null));
-            VertexConsumer glowConsumer = buffer.getBuffer(RenderType.eyes(PLAINS_GLOW_TEXTURE));
+            VertexConsumer glowConsumer = buffer.getBuffer(ClientInit.RenderTypes.getTransparentEyes(PLAINS_GLOW_TEXTURE));
 
+            float f = creeper.getSwelling(partialTicks);
             getRenderer().render(normalModel, creeper, partialTicks,
                     null, stack, null, glowConsumer,
                     packedLightIn, OverlayTexture.NO_OVERLAY,
-                    1f, 1f, 1f, 1f);
+                    1f, 1f, 1f, f);
         }
     }
 }

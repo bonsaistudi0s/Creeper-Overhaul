@@ -1,5 +1,6 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.base;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -10,7 +11,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -29,6 +29,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -183,10 +186,22 @@ public class BaseCreeper extends Monster implements PowerableMob, IAnimatable {
             this.dead = true;
             Explosion explosion = this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius * (this.isPowered() ? 2.0F : 1.0F), interaction);
             this.discard();
-            explosion.getHitPlayers().keySet().forEach(player -> {
-                Collection<MobEffectInstance> inflictingPotions = this.type.inflictingPotions().stream().map(MobEffectInstance::new).toList();
-                inflictingPotions.forEach(player::addEffect);
-            });
+            if (!this.type.inflictingPotions().isEmpty()) {
+                explosion.getHitPlayers().keySet().forEach(player -> {
+                    Collection<MobEffectInstance> inflictingPotions = this.type.inflictingPotions().stream().map(MobEffectInstance::new).toList();
+                    inflictingPotions.forEach(player::addEffect);
+                });
+            }
+            if (this.type.dirtReplacement() != null) {
+                Block replacement = this.type.dirtReplacement().get();
+                explosion.getToBlow().stream()
+                        .map(BlockPos::below)
+                        .filter(pos -> {
+                            BlockState state = level.getBlockState(pos);
+                            return (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) && this.random.nextInt(3) == 0;
+                        })
+                        .forEach(pos -> level.setBlock(pos, replacement.defaultBlockState(), Block.UPDATE_ALL));
+            }
             Collection<MobEffectInstance> collection = this.getActiveEffects().stream().map(MobEffectInstance::new).toList();
             summonCloudWithEffects(collection);
             summonCloudWithEffects(getCreeperType().potionsWhenDead().stream().map(MobEffectInstance::new).toList());
