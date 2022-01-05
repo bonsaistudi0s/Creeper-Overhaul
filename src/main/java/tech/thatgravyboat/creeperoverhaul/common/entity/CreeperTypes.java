@@ -1,5 +1,6 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -94,6 +95,7 @@ public class CreeperTypes {
             .setModel(modLoc("geo/mushroom.geo.json"))
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addPotionsWhenDying(new StatusEffectInstance(StatusEffects.POISON, 100, 1))
+            .setDirtReplacement(() -> Blocks.MYCELIUM)
             .build();
 
     public static final CreeperType SWAMP = new CreeperType.Builder()

@@ -1,5 +1,6 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.base;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -11,6 +12,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 public record CreeperType(
         Identifier texture,
@@ -20,6 +22,7 @@ public record CreeperType(
         Identifier shearedModel,
         Identifier animation,
         int melee,
+        Supplier<Block> dirtReplacement,
         Collection<EntityType<?>> entitiesAfraidOf,
         Collection<StatusEffectInstance> inflictingPotions,
         Collection<StatusEffectInstance> potionsWhenDead,
@@ -42,6 +45,7 @@ public record CreeperType(
         private final List<StatusEffectInstance> potionsWhenDying = new ArrayList<>();
         private final List<Class<? extends LivingEntity>> attackingEntities = new ArrayList<>();
         private final List<DamageSource> immunities = new ArrayList<>();
+        private Supplier<Block> dirtReplacement = null;
         private final DefaultAttributeContainer.Builder attributes = BaseCreeper.createAttributes();
         private boolean shearable;
 
@@ -77,6 +81,11 @@ public record CreeperType(
 
         public Builder setMelee(int melee) {
             this.melee = melee;
+            return this;
+        }
+
+        public Builder setDirtReplacement(Supplier<Block> replacement) {
+            this.dirtReplacement = replacement;
             return this;
         }
 
@@ -116,7 +125,7 @@ public record CreeperType(
         }
 
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, dirtReplacement, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable);
         }
     }
 

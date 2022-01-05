@@ -1,5 +1,8 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.base;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.render.entity.feature.SkinOverlayOwner;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.Entity;
@@ -28,6 +31,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
@@ -210,10 +214,25 @@ public class BaseCreeper extends HostileEntity implements SkinOverlayOwner, IAni
             this.dead = true;
             Explosion explosion = this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float)explosionRadius * (this.isPowered() ? 2.0F : 1.0F), destructionType);
             this.discard();
-            explosion.getAffectedPlayers().keySet().forEach(player -> {
-                Collection<StatusEffectInstance> inflictingPotions = this.type.inflictingPotions().stream().map(StatusEffectInstance::new).toList();
-                inflictingPotions.forEach(player::addStatusEffect);
-            });
+            if (!this.type.inflictingPotions().isEmpty()) {
+                explosion.getAffectedPlayers().keySet().forEach(player -> {
+                    Collection<StatusEffectInstance> inflictingPotions = this.type.inflictingPotions().stream().map(StatusEffectInstance::new).toList();
+                    inflictingPotions.forEach(player::addStatusEffect);
+                });
+            }
+            if (this.type.dirtReplacement() != null) {
+                Block replacement = this.type.dirtReplacement().get();
+                explosion.getAffectedBlocks().stream()
+                        .map(BlockPos::down)
+                        .filter(pos -> {
+                            BlockState state = world.getBlockState(pos);
+                            return (state.isOf(Blocks.GRASS_BLOCK) || state.isOf(Blocks.DIRT)) && this.random.nextInt(3) == 0;
+                        })
+                        .forEach(pos -> world.setBlockState(pos, replacement.getDefaultState(), Block.NOTIFY_ALL));
+            }
+
+
+
             Collection<StatusEffectInstance> collection = this.getStatusEffects().stream().map(StatusEffectInstance::new).toList();
             summonCloudWithEffects(collection);
             summonCloudWithEffects(getCreeperType().potionsWhenDead().stream().map(StatusEffectInstance::new).toList());

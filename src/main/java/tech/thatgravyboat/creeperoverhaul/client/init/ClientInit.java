@@ -79,5 +79,21 @@ public class ClientInit implements ClientModInitializer {
                             .build(false)
             );
         }
+
+        public static RenderLayer getTransparentEyes(Identifier Identifier) {
+            Texture texture2 = new Texture(Identifier, false, false);
+            return RenderLayer.of("eyes",
+                    VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
+                    VertexFormat.DrawMode.QUADS,
+                    256,
+                    false,
+                    true,
+                    RenderLayer.MultiPhaseParameters.builder()
+                            .shader(EYES_SHADER)
+                            .texture(texture2)
+                            .transparency(TRANSLUCENT_TRANSPARENCY)
+                            .writeMaskState(COLOR_MASK)
+                            .build(false));
+        }
     }
 }
