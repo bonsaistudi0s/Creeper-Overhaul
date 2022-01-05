@@ -26,16 +26,20 @@ public class ReplacedCreeperGlowLayer extends GeoLayerRenderer {
 
     @Override
     public void render(MatrixStack stack, VertexConsumerProvider buffer, int packedLightIn, Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity instanceof CreeperEntity creeper && creeper.shouldRenderOverlay()) {
-
-            GeoModel normalModel = this.getEntityModel().getModel(this.getEntityModel().getModelLocation(null));
-            VertexConsumer glowConsumer = buffer.getBuffer(ClientInit.RenderTypes.getTransparentEyes(PLAINS_GLOW_TEXTURE));
+        if (entity instanceof CreeperEntity creeper) {
 
             float f = creeper.getClientFuseTime(partialTicks);
-            getRenderer().render(normalModel, creeper, partialTicks,
-                    null, stack, null, glowConsumer,
-                    packedLightIn, OverlayTexture.DEFAULT_UV,
-                    1f, 1f, 1f, f);
+            if (f > 0f || creeper.shouldRenderOverlay()) {
+                if (creeper.shouldRenderOverlay()) f = 1f;
+
+                GeoModel normalModel = this.getEntityModel().getModel(this.getEntityModel().getModelLocation(null));
+                VertexConsumer glowConsumer = buffer.getBuffer(ClientInit.RenderTypes.getTransparentEyes(PLAINS_GLOW_TEXTURE));
+
+                getRenderer().render(normalModel, creeper, partialTicks,
+                        null, stack, null, glowConsumer,
+                        packedLightIn, OverlayTexture.DEFAULT_UV,
+                        1f, 1f, 1f, f);
+            }
         }
     }
 }
