@@ -10,7 +10,6 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
-import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperModel;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperRenderer;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.replaced.ReplacedCreeperRenderer;
