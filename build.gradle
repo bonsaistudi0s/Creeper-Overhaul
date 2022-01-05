@@ -14,7 +14,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '0.0.1'
+version = '0.0.2'
 group = 'tech.thatgravyboat.creeperoverhaul'
 archivesBaseName = 'creeperoverhaul'
 
