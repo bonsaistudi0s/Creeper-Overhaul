@@ -20,18 +20,19 @@ public class CreeperGlowLayer<E extends BaseCreeper> extends GeoLayerRenderer<E>
 
     @Override
     public void render(PoseStack stack, MultiBufferSource buffer, int packedLightIn, E creeper, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!creeper.isPowered()) return;
-
-        CreeperType type = creeper.getCreeperType();
-
-        GeoModel normalModel = this.getEntityModel().getModel(type.model());
-        VertexConsumer glowConsumer = buffer.getBuffer(ClientInit.RenderTypes.getTransparentEyes(type.glowingTexture()));
-
         float f = creeper.getSwelling(partialTicks);
-        getRenderer().render(normalModel, creeper, partialTicks,
-                null, stack, null, glowConsumer,
-                packedLightIn, OverlayTexture.NO_OVERLAY,
-                1f, 1f, 1f, f);
+        if (f > 0f || creeper.isPowered()) {
+            if (creeper.isPowered()) f = 1f;
 
+            CreeperType type = creeper.getCreeperType();
+
+            GeoModel normalModel = this.getEntityModel().getModel(type.model());
+            VertexConsumer glowConsumer = buffer.getBuffer(ClientInit.RenderTypes.getTransparentEyes(type.glowingTexture()));
+
+            getRenderer().render(normalModel, creeper, partialTicks,
+                    null, stack, null, glowConsumer,
+                    packedLightIn, OverlayTexture.NO_OVERLAY,
+                    1f, 1f, 1f, f);
+        }
     }
 }
