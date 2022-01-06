@@ -135,9 +135,9 @@ public class Creepers implements ModInitializer {
 
 
         addCreeper(BiomeSelectors.categories(Biome.Category.MOUNTAIN)
-                .or(ctx -> ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW)), ModEntities.SNOWY_CREEPER);
+                .and(ctx -> ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW)), ModEntities.SNOWY_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.MOUNTAIN)
-                .or(ctx -> !ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW)), ModEntities.HILLS_CREEPER);
+                .and(ctx -> !ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW)), ModEntities.HILLS_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.MOUNTAIN), ModEntities.CAVE_CREEPER);
 
         addCreeper(BiomeSelectors.categories(Biome.Category.UNDERGROUND), ModEntities.DRIPSTONE_CREEPER);
