@@ -9,7 +9,9 @@ import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnReason;
@@ -17,6 +19,7 @@ import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -127,12 +130,10 @@ public class Creepers implements ModInitializer {
         addCreeper(BiomeSelectors.categories(Biome.Category.MESA), ModEntities.BADLANDS_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.MESA), ModEntities.CAVE_CREEPER);
 
-        addCreeper(BiomeSelectors.categories(Biome.Category.MUSHROOM), ModEntities.BADLANDS_CREEPER);
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.MUSHROOM), SpawnGroup.MONSTER, ModEntities.BADLANDS_CREEPER, 25, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.MUSHROOM), SpawnGroup.MONSTER, ModEntities.MUSHROOM_CREEPER, 25, 2, 2);
 
         addCreeper(BiomeSelectors.categories(Biome.Category.TAIGA), ModEntities.SPRUCE_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.TAIGA), ModEntities.CAVE_CREEPER);
-
 
         addCreeper(BiomeSelectors.categories(Biome.Category.MOUNTAIN)
                 .and(ctx -> ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW)), ModEntities.SNOWY_CREEPER);
@@ -174,7 +175,10 @@ public class Creepers implements ModInitializer {
     }
 
     public static boolean checkDayMonsterSpawnRulesAbove(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > world.getSeaLevel() && world.getDifficulty() != Difficulty.PEACEFUL && HostileEntity.canMobSpawn(type, world, spawnReason, pos, random);
+        BlockState state = world.getBlockState(pos.down());
+        boolean isGrassLike = state.isOf(Blocks.GRASS_BLOCK) || state.isOf(Blocks.PODZOL) || state.isOf(Blocks.MYCELIUM) || state.isOf(Blocks.DIRT);
+        return pos.getY() > world.getSeaLevel() && world.getDifficulty() != Difficulty.PEACEFUL && HostileEntity.canMobSpawn(type, world, spawnReason, pos, random) &&
+                (isGrassLike || state.isIn(BlockTags.BASE_STONE_OVERWORLD) || state.getBlock() instanceof LeavesBlock);
     }
 
     private <E extends BaseCreeper> void addCreeper(Predicate<BiomeSelectionContext> selectors, EntityType<E> entityType) {
