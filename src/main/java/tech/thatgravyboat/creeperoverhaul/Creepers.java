@@ -182,7 +182,7 @@ public class Creepers implements ModInitializer {
     }
 
     private <E extends BaseCreeper> void addCreeper(Predicate<BiomeSelectionContext> selectors, EntityType<E> entityType) {
-        BiomeModifications.addSpawn(selectors, SpawnGroup.MONSTER, entityType, 75, 4, 4);
+        BiomeModifications.addSpawn(selectors, SpawnGroup.MONSTER, entityType, 75, 2, 2);
     }
 
     private void removeCreeper(Predicate<BiomeSelectionContext> biomeSelector) {
