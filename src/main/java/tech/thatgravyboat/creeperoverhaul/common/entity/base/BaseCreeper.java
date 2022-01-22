@@ -88,11 +88,15 @@ public class BaseCreeper extends Monster implements PowerableMob, IAnimatable {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         registerNearestAttackableTargetGoal();
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+        if (shouldRevenge()) this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
     protected void registerNearestAttackableTargetGoal() {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+    }
+
+    protected boolean shouldRevenge() {
+        return true;
     }
 
     @Override

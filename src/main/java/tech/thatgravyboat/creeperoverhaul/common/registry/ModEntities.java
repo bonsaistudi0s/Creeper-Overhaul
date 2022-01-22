@@ -9,6 +9,7 @@ import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.NeutralCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.entity.base.PassiveCreeper;
 
 public class ModEntities {
 
@@ -39,7 +40,7 @@ public class ModEntities {
                     .clientTrackingRange(8).build("savannah_creeper"));
 
     public static final RegistryObject<EntityType<NeutralCreeper>> MUSHROOM_CREEPER = ENTITY_TYPES.register("mushroom_creeper",
-            () -> EntityType.Builder.<NeutralCreeper>of((type, level) -> new NeutralCreeper(type, level, CreeperTypes.MUSHROOM), MobCategory.MONSTER).sized(1F, 1.7F)
+            () -> EntityType.Builder.<NeutralCreeper>of((type, level) -> new PassiveCreeper(type, level, CreeperTypes.MUSHROOM), MobCategory.CREATURE).sized(1F, 1.7F)
                     .clientTrackingRange(8).build("mushroom_creeper"));
 
     public static final RegistryObject<EntityType<BaseCreeper>> SWAMP_CREEPER = ENTITY_TYPES.register("swamp_creeper",

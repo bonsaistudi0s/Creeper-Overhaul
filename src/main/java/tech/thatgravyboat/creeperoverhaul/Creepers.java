@@ -185,7 +185,7 @@ public class Creepers {
                 addCreeper(event, ModEntities.BADLANDS_CREEPER);
                 addCreeper(event, ModEntities.CAVE_CREEPER);
             }
-            case MUSHROOM -> event.getSpawns().addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(ModEntities.MUSHROOM_CREEPER.get(),25, 2, 2));
+            case MUSHROOM -> event.getSpawns().addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(ModEntities.MUSHROOM_CREEPER.get(),10, 1, 2));
             case TAIGA -> {
                 addCreeper(event, ModEntities.SPRUCE_CREEPER);
                 addCreeper(event, ModEntities.CAVE_CREEPER);
