@@ -130,7 +130,7 @@ public class Creepers implements ModInitializer {
         addCreeper(BiomeSelectors.categories(Biome.Category.MESA), ModEntities.BADLANDS_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.MESA), ModEntities.CAVE_CREEPER);
 
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.MUSHROOM), SpawnGroup.MONSTER, ModEntities.MUSHROOM_CREEPER, 25, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.MUSHROOM), SpawnGroup.CREATURE, ModEntities.MUSHROOM_CREEPER, 10, 1, 2);
 
         addCreeper(BiomeSelectors.categories(Biome.Category.TAIGA), ModEntities.SPRUCE_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.TAIGA), ModEntities.CAVE_CREEPER);

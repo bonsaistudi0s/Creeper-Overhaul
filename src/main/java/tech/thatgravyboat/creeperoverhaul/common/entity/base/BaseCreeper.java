@@ -12,7 +12,6 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -92,11 +91,15 @@ public class BaseCreeper extends HostileEntity implements SkinOverlayOwner, IAni
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(6, new LookAroundGoal(this));
         registerNearestAttackableTargetGoal();
-        this.targetSelector.add(2, new RevengeGoal(this));
+        if (shouldRevenge()) this.targetSelector.add(2, new RevengeGoal(this));
     }
 
     protected void registerNearestAttackableTargetGoal() {
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
+    }
+
+    protected boolean shouldRevenge() {
+        return true;
     }
 
     @Override

@@ -11,6 +11,7 @@ import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.NeutralCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.entity.base.PassiveCreeper;
 
 public class ModEntities {
 
@@ -44,8 +45,8 @@ public class ModEntities {
             .dimensions(EntityDimensions.fixed(0.6F, 2.2F))
             .trackRangeBlocks(8).build();
 
-    public static final EntityType<NeutralCreeper> MUSHROOM_CREEPER = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER,
-                    createNeutralCreeper(CreeperTypes.MUSHROOM))
+    public static final EntityType<PassiveCreeper> MUSHROOM_CREEPER = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE,
+                    createPassiveCreeper(CreeperTypes.MUSHROOM))
             .dimensions(EntityDimensions.fixed(1F, 1.7F))
             .trackRangeBlocks(8).build();
 
@@ -90,6 +91,10 @@ public class ModEntities {
 
     private static EntityType.EntityFactory<NeutralCreeper> createNeutralCreeper(CreeperType creeperType) {
         return (type, level) -> new NeutralCreeper(type, level, creeperType);
+    }
+
+    private static EntityType.EntityFactory<PassiveCreeper> createPassiveCreeper(CreeperType creeperType) {
+        return (type, level) -> new PassiveCreeper(type, level, creeperType);
     }
 
     public static void register() {
