@@ -245,6 +245,6 @@ public class Creepers {
     }
 
     private <E extends BaseCreeper> void addCreeper(BiomeLoadingEvent event, RegistryObject<EntityType<E>> entityType) {
-        event.getSpawns().addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(entityType.get(),75, 4, 4));
+        event.getSpawns().addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(entityType.get(),75, 2, 2));
     }
 }
