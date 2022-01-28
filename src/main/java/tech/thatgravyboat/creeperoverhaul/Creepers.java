@@ -144,7 +144,7 @@ public class Creepers implements ModInitializer {
         addCreeper(BiomeSelectors.categories(Biome.Category.UNDERGROUND), ModEntities.DRIPSTONE_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.UNDERGROUND), ModEntities.CAVE_CREEPER);
 
-        addCreeper(BiomeSelectors.categories(Biome.Category.JUNGLE), ModEntities.JUNGLE_CREEPER);
+        addCreeper(BiomeSelectors.categories(Biome.Category.JUNGLE), ModEntities.BAMBOO_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.JUNGLE), ModEntities.JUNGLE_CREEPER);
         addCreeper(BiomeSelectors.categories(Biome.Category.JUNGLE), ModEntities.CAVE_CREEPER);
 
