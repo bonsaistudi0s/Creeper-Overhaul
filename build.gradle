@@ -79,6 +79,7 @@ mixin {
 }
 
 repositories {
+    maven { url "https://nexus.resourcefulbees.com/repository/maven-public/" }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 }
 
@@ -86,6 +87,8 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.18.1-39.0.8'
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-1.18-forge:3.0.3")
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.5-SNAPSHOT:processor'
 }
 
 jar {
