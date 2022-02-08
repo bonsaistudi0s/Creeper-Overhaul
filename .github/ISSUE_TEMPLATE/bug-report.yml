@@ -77,7 +77,7 @@ body:
         detail we would need to understand why you crashed or can not load.
 
   - type: checkboxes
-    id:acknowledgement
+    id: acknowledgement
     attributes:
       label: Acknowledgement
       description: By submitting this issue, you agree that you read the statement above.
