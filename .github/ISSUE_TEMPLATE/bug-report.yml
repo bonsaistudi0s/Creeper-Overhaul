@@ -68,3 +68,19 @@ body:
     attributes:
       label: Logs or additional context
       description: Please copy and paste any relevant log output into a paste website such as [Pastebin](https://pastebin.com) and then link them here. You may also give any additional information here too.
+
+  - type: markdown
+    attributes:
+      value: |
+        If this report is about a crash or a loading issue please provide a log or you may not get the help right away
+        as it is harder to under stand the sentence "I crashed." than us reading a file that contains almost every single
+        detail we would need to understand why you crashed or can not load.
+
+  - type: checkboxes
+      id: acknowledgement
+      attributes:
+        label: Acknowledgement
+        description: By submitting this issue, you agree that you read the statement above.
+        options:
+          - label: I agree that I have read what was said above this check box.
+            required: true
