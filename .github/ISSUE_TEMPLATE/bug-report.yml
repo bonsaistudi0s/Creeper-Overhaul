@@ -77,10 +77,10 @@ body:
         detail we would need to understand why you crashed or can not load.
 
   - type: checkboxes
-      id: acknowledgement
-      attributes:
-        label: Acknowledgement
-        description: By submitting this issue, you agree that you read the statement above.
-        options:
-          - label: I agree that I have read what was said above this check box.
-            required: true
+    id:acknowledgement
+    attributes:
+      label: Acknowledgement
+      description: By submitting this issue, you agree that you read the statement above.
+      options:
+        - label: I agree that I have read what was said above this check box.
+          required: true
