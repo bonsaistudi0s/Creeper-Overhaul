@@ -241,7 +241,7 @@ public class Creepers {
         BlockState state = pLevel.getBlockState(pPos.below());
         boolean isGrassLike = state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.PODZOL) || state.is(Blocks.MYCELIUM) || state.is(Blocks.DIRT);
         return pPos.getY() > pLevel.getSeaLevel() && pLevel.getDifficulty() != Difficulty.PEACEFUL && Monster.checkMobSpawnRules(pType, pLevel, pReason, pPos, pRandom) &&
-                (isGrassLike || state.is(BlockTags.BASE_STONE_OVERWORLD) || state.getBlock() instanceof LeavesBlock);
+                (isGrassLike || state.m_204336_(BlockTags.BASE_STONE_OVERWORLD) || state.getBlock() instanceof LeavesBlock);
     }
 
     private <E extends BaseCreeper> void addCreeper(BiomeLoadingEvent event, RegistryObject<EntityType<E>> entityType) {
