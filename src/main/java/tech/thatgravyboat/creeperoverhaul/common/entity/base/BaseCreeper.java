@@ -27,7 +27,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -148,14 +148,14 @@ public class BaseCreeper extends HostileEntity implements SkinOverlayOwner, IAni
     }
 
     @Override
-    protected void swimUpward(Tag<Fluid> fluid) {
+    protected void swimUpward(TagKey<Fluid> fluid) {
         this.setVelocity(this.getVelocity().add(0.0D, 0.04D * this.getAttributeValue(ModAttributes.SWIM_SPEED), 0.0D));
     }
 
     @Override
     public void updateVelocity(float speed, Vec3d movementInput) {
         FluidState fluidState = this.world.getFluidState(this.getBlockPos());
-        if (this.isTouchingWater() && this.shouldSwimInFluids() && !this.canWalkOnFluid(fluidState.getFluid())){
+        if (this.isTouchingWater() && this.shouldSwimInFluids() && !this.canWalkOnFluid(fluidState)){
             super.updateVelocity(speed * (float)this.getAttributeValue(ModAttributes.SWIM_SPEED), movementInput);
             return;
         }
