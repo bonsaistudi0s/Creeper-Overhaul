@@ -82,7 +82,7 @@ public class Creepers implements ModInitializer {
 
     public void addSpawnRules() {
         SpawnRestrictionAccessor.callRegister(ModEntities.JUNGLE_CREEPER,
-                SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, Creepers::checkDayMonsterSpawnRulesAbove);
+                SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, Creepers::checkMonsterSpawnRulesAbove);
         SpawnRestrictionAccessor.callRegister(ModEntities.BAMBOO_CREEPER,
                 SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, Creepers::checkDayMonsterSpawnRulesAbove);
         SpawnRestrictionAccessor.callRegister(ModEntities.DESERT_CREEPER,
@@ -167,17 +167,17 @@ public class Creepers implements ModInitializer {
     }
 
     public static boolean checkMonsterSpawnRulesCave(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() < world.getSeaLevel() && !world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) && world.getDifficulty() != Difficulty.PEACEFUL && HostileEntity.isSpawnDark(world, pos, random) && HostileEntity.canMobSpawn(type, world, spawnReason, pos, random);
+        return pos.getY() < world.getSeaLevel() && !world.getBlockState(pos.down()).isOf(Blocks.GRASS_BLOCK) && HostileEntity.canSpawnInDark(type, world, spawnReason, pos, random);
     }
 
     public static boolean checkMonsterSpawnRulesAbove(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > world.getSeaLevel() && world.getDifficulty() != Difficulty.PEACEFUL && HostileEntity.isSpawnDark(world, pos, random) && HostileEntity.canMobSpawn(type, world, spawnReason, pos, random);
+        return pos.getY() > world.getSeaLevel() && HostileEntity.canSpawnInDark(type, world, spawnReason, pos, random);
     }
 
     public static boolean checkDayMonsterSpawnRulesAbove(EntityType<? extends HostileEntity> type, ServerWorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
         BlockState state = world.getBlockState(pos.down());
         boolean isGrassLike = state.isOf(Blocks.GRASS_BLOCK) || state.isOf(Blocks.PODZOL) || state.isOf(Blocks.MYCELIUM) || state.isOf(Blocks.DIRT);
-        return pos.getY() > world.getSeaLevel() && world.getDifficulty() != Difficulty.PEACEFUL && HostileEntity.canMobSpawn(type, world, spawnReason, pos, random) &&
+        return pos.getY() > world.getSeaLevel() && HostileEntity.canSpawnIgnoreLightLevel(type, world, spawnReason, pos, random) &&
                 (isGrassLike || state.isIn(BlockTags.BASE_STONE_OVERWORLD) || state.getBlock() instanceof LeavesBlock);
     }
 
