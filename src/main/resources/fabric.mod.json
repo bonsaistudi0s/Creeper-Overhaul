@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Creeper Overhaul",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Creeper Overhaul replaces the vanilla creeper with a variety of different biome-specific creeper types, some friendlier than others :)",
   "authors": [
     "Artist/Creator - Joosh",
     "Dev - ThatGravyBoat"
