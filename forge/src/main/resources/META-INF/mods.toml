@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[41,)"
+license="All rights reserved"
+
+[[mods]]
+    modId="creeperoverhaul"
+    version="${file.jarVersion}"
+    displayName="Creeper Overhaul"
+    logoFile="assets/creeperoverhaul/icon.png"
+    authors="Artist/Creator - Joosh, Dev - ThatGravyBoat"
+    description="Creeper overhaul adds a variety of different biome-specific creeper types to your world, some friendlier than others :)"
+
+[[dependencies.creeperoverhaul]]
+    modId="geckolib3"
+    mandatory=true
+    versionRange="[3.0.12,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.creeperoverhaul]]
+    modId="forge"
+    mandatory=true
+    versionRange="[41,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.creeperoverhaul]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19,)"
+    ordering="NONE"
+    side="BOTH"

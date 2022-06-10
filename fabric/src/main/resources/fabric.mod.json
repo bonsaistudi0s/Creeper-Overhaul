@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "creeperoverhaul",
+  "version": "${version}",
+
+  "name": "Creeper Overhaul",
+  "description": "Creeper Overhaul replaces the vanilla creeper with a variety of different biome-specific creeper types, some friendlier than others :)",
+  "authors": [
+    "Artist/Creator - Joosh",
+    "Dev - ThatGravyBoat"
+  ],
+
+  "license": "ARR",
+  "icon": "assets/creeperoverhaul/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "tech.thatgravyboat.creeperoverhaul.fabric.CreepersFabric"
+    ],
+    "client": [
+      "tech.thatgravyboat.creeperoverhaul.fabric.CreepersClientFabric"
+    ]
+  },
+  "mixins": [
+    "creeperoverhaul.mixins.json",
+    "creeperoverhaul-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.19.x",
+    "java": ">=17",
+    "geckolib3": "*"
+  }
+}
