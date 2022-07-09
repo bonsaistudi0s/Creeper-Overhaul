@@ -1,0 +1,20 @@
+{
+  "values": [
+    "#minecraft:is_taiga",
+    "#forge:is_snowy",
+    "#minecraft:is_savanna",
+    "#minecraft:is_jungle",
+    "#minecraft:is_hill",
+    "#minecraft:has_structure/desert_pyramid",
+    "#minecraft:is_beach",
+    "#minecraft:is_jungle",
+    "#minecraft:has_structure/mineshaft_mesa",
+    "#minecraft:has_structure/ruined_portal_swamp",
+
+    "minecraft:mushroom_fields",
+    "minecraft:stony_peaks",
+    "minecraft:dripstone_caves",
+    "minecraft:lush_caves",
+    "minecraft:dark_forest"
+  ]
+}

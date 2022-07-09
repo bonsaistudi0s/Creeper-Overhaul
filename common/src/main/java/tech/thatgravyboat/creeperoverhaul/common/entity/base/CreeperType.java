@@ -1,17 +1,23 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.base;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public record CreeperType(
@@ -22,15 +28,41 @@ public record CreeperType(
         ResourceLocation shearedModel,
         ResourceLocation animation,
         int melee,
-        Supplier<Block> dirtReplacement,
+        Map<Predicate<BlockState>, Function<RandomSource, BlockState>> replacer,
         Collection<EntityType<?>> entitiesAfraidOf,
         Collection<MobEffectInstance> inflictingPotions,
         Collection<MobEffectInstance> potionsWhenDead,
         Collection<Class<? extends LivingEntity>> entities,
         Collection<DamageSource> immunities,
         AttributeSupplier attributes,
-        boolean shearable
+        boolean shearable,
+
+        Supplier<SoundEvent> deathSound,
+        Supplier<SoundEvent> explosionSound,
+        Supplier<SoundEvent> hitSound,
+        Supplier<SoundEvent> hurtSound,
+        Supplier<SoundEvent> primeSound
 ) {
+
+    public Optional<SoundEvent> getDeathSound() {
+        return Optional.ofNullable(deathSound.get());
+    }
+
+    public Optional<SoundEvent> getExplosionSound() {
+        return Optional.ofNullable(explosionSound.get());
+    }
+
+    public Optional<SoundEvent> getHitSound() {
+        return Optional.ofNullable(hitSound.get());
+    }
+
+    public Optional<SoundEvent> getHurtSound() {
+        return Optional.ofNullable(hurtSound.get());
+    }
+
+    public Optional<SoundEvent> getPrimeSound() {
+        return Optional.ofNullable(primeSound.get());
+    }
 
     public static class Builder {
         private ResourceLocation texture;
@@ -45,9 +77,17 @@ public record CreeperType(
         private final List<MobEffectInstance> potionsWhenDying = new ArrayList<>();
         private final List<Class<? extends LivingEntity>> attackingEntities = new ArrayList<>();
         private final List<DamageSource> immunities = new ArrayList<>();
-        private Supplier<Block> dirtReplacement = null;
-        private final AttributeSupplier.Builder attributes = BaseCreeper.createAttributes();
+        private final Map<Predicate<BlockState>, Function<RandomSource, BlockState>> replacer = new HashMap<>();
+        private final AttributeSupplier.Builder attributes = Creeper.createAttributes()
+                .add(PlatformUtils.getModAttribute("reach_distance"), 0)
+                .add(PlatformUtils.getModAttribute("swim_speed"));
         private boolean shearable;
+
+        private Supplier<SoundEvent> deathSound = () -> SoundEvents.CREEPER_DEATH;
+        private Supplier<SoundEvent> explosionSound = null;
+        private Supplier<SoundEvent> hitSound = null;
+        private Supplier<SoundEvent> hurtSound = () -> SoundEvents.CREEPER_HURT;
+        private Supplier<SoundEvent> primeSound = () -> SoundEvents.CREEPER_PRIMED;
 
         public Builder setTexture(ResourceLocation texture) {
             this.texture = texture;
@@ -84,8 +124,8 @@ public record CreeperType(
             return this;
         }
 
-        public Builder setDirtReplacement(Supplier<Block> replacement) {
-            this.dirtReplacement = replacement;
+        public Builder addReplacer(Predicate<BlockState> predicate, Function<RandomSource, BlockState> function) {
+            this.replacer.put(predicate, function);
             return this;
         }
 
@@ -114,6 +154,14 @@ public record CreeperType(
             return this;
         }
 
+        public Builder addAttribute(String attribute, double value) {
+            Attribute modAttribute = PlatformUtils.getModAttribute(attribute);
+            if (modAttribute == null) {
+                throw new IllegalArgumentException("Mod Attribute " + attribute + " does not exist");
+            }
+            this.attributes.add(modAttribute, value);
+            return this;
+        }
         public Builder addAttribute(Attribute attribute, double value) {
             this.attributes.add(attribute, value);
             return this;
@@ -124,8 +172,33 @@ public record CreeperType(
             return this;
         }
 
+        public Builder setDeathSounds(Supplier<SoundEvent> sound) {
+            this.deathSound = sound;
+            return this;
+        }
+
+        public Builder setExplosionSounds(Supplier<SoundEvent> sound) {
+            this.explosionSound = sound;
+            return this;
+        }
+
+        public Builder setHitSounds(Supplier<SoundEvent> sound) {
+            this.hitSound = sound;
+            return this;
+        }
+
+        public Builder setHurtSounds(Supplier<SoundEvent> sound) {
+            this.hurtSound = sound;
+            return this;
+        }
+
+        public Builder setPrimeSounds(Supplier<SoundEvent> sound) {
+            this.primeSound = sound;
+            return this;
+        }
+
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, dirtReplacement, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes.build(), shearable);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes.build(), shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound);
         }
     }
 

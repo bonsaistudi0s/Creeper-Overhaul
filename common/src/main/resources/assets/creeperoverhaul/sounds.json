@@ -1,0 +1,123 @@
+{
+  "entity.plant.creeper.death": {
+    "subtitle": "subtitles.creeperoverhaul.entity.plant.creeper.death",
+    "sounds": [
+      "creeperoverhaul:plant_creeper_death"
+    ]
+  },
+  "entity.plant.creeper.explosion": {
+    "subtitle": "subtitles.creeperoverhaul.entity.plant.creeper.explosion",
+    "sounds": [
+      "creeperoverhaul:plant_creeper_explosion"
+    ]
+  },
+  "entity.plant.creeper.hit": {
+    "subtitle": "subtitles.creeperoverhaul.entity.plant.creeper.hit",
+    "sounds": [
+      "creeperoverhaul:plant_creeper_hit_1",
+      "creeperoverhaul:plant_creeper_hit_2"
+    ]
+  },
+  "entity.plant.creeper.hurt": {
+    "subtitle": "subtitles.creeperoverhaul.entity.plant.creeper.hurt",
+    "sounds": [
+      "creeperoverhaul:plant_creeper_hurt_1",
+      "creeperoverhaul:plant_creeper_hurt_2",
+      "creeperoverhaul:plant_creeper_hurt_3",
+      "creeperoverhaul:plant_creeper_hurt_4"
+    ]
+  },
+  "entity.plant.creeper.prime": {
+    "subtitle": "subtitles.creeperoverhaul.entity.plant.creeper.prime",
+    "sounds": [
+      "creeperoverhaul:plant_creeper_prime"
+    ]
+  },
+  "entity.sand.creeper.death": {
+    "subtitle": "subtitles.creeperoverhaul.entity.sand.creeper.death",
+    "sounds": [
+      "creeperoverhaul:sand_creeper_death"
+    ]
+  },
+  "entity.sand.creeper.explosion": {
+    "subtitle": "subtitles.creeperoverhaul.entity.sand.creeper.explosion",
+    "sounds": [
+      "creeperoverhaul:sand_creeper_explosion"
+    ]
+  },
+  "entity.sand.creeper.hurt": {
+    "subtitle": "subtitles.creeperoverhaul.entity.sand.creeper.hurt",
+    "sounds": [
+      "creeperoverhaul:sand_creeper_hurt_1",
+      "creeperoverhaul:sand_creeper_hurt_2",
+      "creeperoverhaul:sand_creeper_hurt_3",
+      "creeperoverhaul:sand_creeper_hurt_4"
+    ]
+  },
+  "entity.sand.creeper.prime": {
+    "subtitle": "subtitles.creeperoverhaul.entity.sand.creeper.prime",
+    "sounds": [
+      "creeperoverhaul:sand_creeper_prime"
+    ]
+  },
+  "entity.stone.creeper.death": {
+    "subtitle": "subtitles.creeperoverhaul.entity.stone.creeper.death",
+    "sounds": [
+      "creeperoverhaul:stone_creeper_death"
+    ]
+  },
+  "entity.stone.creeper.explosion": {
+    "subtitle": "subtitles.creeperoverhaul.entity.stone.creeper.explosion",
+    "sounds": [
+      "creeperoverhaul:stone_creeper_explosion"
+    ]
+  },
+  "entity.stone.creeper.hurt": {
+    "subtitle": "subtitles.creeperoverhaul.entity.stone.creeper.hurt",
+    "sounds": [
+      "creeperoverhaul:stone_creeper_hurt_1",
+      "creeperoverhaul:stone_creeper_hurt_2",
+      "creeperoverhaul:stone_creeper_hurt_3",
+      "creeperoverhaul:stone_creeper_hurt_4"
+    ]
+  },
+  "entity.stone.creeper.prime": {
+    "subtitle": "subtitles.creeperoverhaul.entity.stone.creeper.prime",
+    "sounds": [
+      "creeperoverhaul:stone_creeper_prime"
+    ]
+  },
+  "entity.wood.creeper.death": {
+    "subtitle": "subtitles.creeperoverhaul.entity.wood.creeper.death",
+    "sounds": [
+      "creeperoverhaul:wood_creeper_death"
+    ]
+  },
+  "entity.wood.creeper.explosion": {
+    "subtitle": "subtitles.creeperoverhaul.entity.wood.creeper.explosion",
+    "sounds": [
+      "creeperoverhaul:wood_creeper_explosion"
+    ]
+  },
+  "entity.wood.creeper.hit": {
+    "subtitle": "subtitles.creeperoverhaul.entity.wood.creeper.hit",
+    "sounds": [
+      "creeperoverhaul:wood_creeper_hit_1"
+    ]
+  },
+  "entity.wood.creeper.hurt": {
+    "subtitle": "subtitles.creeperoverhaul.entity.wood.creeper.hurt",
+    "sounds": [
+      "creeperoverhaul:wood_creeper_hurt_1",
+      "creeperoverhaul:wood_creeper_hurt_2",
+      "creeperoverhaul:wood_creeper_hurt_3",
+      "creeperoverhaul:wood_creeper_hurt_4"
+    ]
+  },
+  "entity.wood.creeper.prime": {
+    "subtitle": "subtitles.creeperoverhaul.entity.wood.creeper.prime",
+    "sounds": [
+      "creeperoverhaul:wood_creeper_prime"
+    ]
+  }
+}

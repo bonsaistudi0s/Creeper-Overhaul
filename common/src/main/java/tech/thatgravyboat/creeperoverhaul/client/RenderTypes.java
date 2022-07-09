@@ -33,7 +33,7 @@ public class RenderTypes extends RenderType {
     }
 
     public static RenderType getSwirl(ResourceLocation location, float u, float v) {
-        return RenderType.create(PlatformUtils.formatShaderId(ENERGY_SWIRL_RENDERTYPE),
+        return create(PlatformUtils.formatShaderId(ENERGY_SWIRL_RENDERTYPE),
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS,
                 256,

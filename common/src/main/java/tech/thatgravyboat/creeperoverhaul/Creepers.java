@@ -9,6 +9,7 @@ import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
+import tech.thatgravyboat.creeperoverhaul.common.registry.ModSounds;
 import tech.thatgravyboat.creeperoverhaul.common.utils.Events;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ public class Creepers {
         ModBlocks.init();
         ModEntities.init();
         ModItems.init();
+        ModSounds.init();
     }
 
     public static void registerAttributes(Map<EntityType<? extends LivingEntity>, AttributeSupplier> attributes) {

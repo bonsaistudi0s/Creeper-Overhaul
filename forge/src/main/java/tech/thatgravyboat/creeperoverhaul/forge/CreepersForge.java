@@ -20,10 +20,7 @@ import tech.thatgravyboat.creeperoverhaul.client.CreepersClient;
 import tech.thatgravyboat.creeperoverhaul.client.forge.ClientConfig;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
-import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModBlocksImpl;
-import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModEntitiesImpl;
-import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModItemsImpl;
-import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModSpawnsImpl;
+import tech.thatgravyboat.creeperoverhaul.common.registry.forge.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +35,10 @@ public class CreepersForge {
         ModItemsImpl.ITEMS.register(bus);
         ModBlocksImpl.BLOCKS.register(bus);
         ModEntitiesImpl.ENTITIES.register(bus);
+        ModSoundsImpl.SOUNDS.register(bus);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_CONFIG);
 
         bus.addListener(this::onAttributes);
         bus.addListener(this::onClient);

@@ -1,5 +1,6 @@
 package tech.thatgravyboat.creeperoverhaul.common.utils;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.function.BooleanSupplier;
 
@@ -20,10 +21,10 @@ public enum Events {
     }
 
     public static Events getCurrentEvent() {
-        for (Events value : Events.values()) {
-            if (value.isDay()) return value;
-        }
-        return Events.NONE;
+        return Arrays.stream(Events.values())
+                .filter(Events::isDay)
+                .findFirst()
+                .orElse(Events.NONE);
     }
 
     private static boolean matchMonth(int month) {

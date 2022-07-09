@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": ["minecraft:dripstone_caves", "minecraft:lush_caves"],
+  "spawners" : {
+    "type": "creeperoverhaul:dripstone_creeper",
+    "weight": 75,
+    "minCount": 2,
+    "maxCount": 2
+  }
+}

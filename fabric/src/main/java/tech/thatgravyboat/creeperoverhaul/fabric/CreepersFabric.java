@@ -1,6 +1,5 @@
 package tech.thatgravyboat.creeperoverhaul.fabric;
 
-import com.google.common.base.Preconditions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -24,6 +23,7 @@ import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
+import tech.thatgravyboat.creeperoverhaul.common.registry.fabric.FabricAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,13 @@ public class CreepersFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        try {
+            Config.loadConfig();
+        } catch (Exception e) {
+            System.out.println("[Creeper Overhaul] Failed to load Config.");
+        }
         Creepers.init();
+        FabricAttributes.register();
         Map<EntityType<? extends LivingEntity>, AttributeSupplier> attributes = new HashMap<>();
         Creepers.registerAttributes(attributes);
         attributes.forEach(DefaultAttributeRegistryAccessor.getRegistry()::put);
@@ -51,8 +57,8 @@ public class CreepersFabric implements ModInitializer {
         addCreeper(tag(BiomeTags.IS_BEACH), ModEntities.BEACH_CREEPER);
         addCreeper(tag(BiomeTags.IS_BEACH), ModEntities.CAVE_CREEPER);
 
-        addCreeper(precip(Biome.Precipitation.SNOW), ModEntities.SNOWY_CREEPER);
-        addCreeper(precip(Biome.Precipitation.SNOW), ModEntities.CAVE_CREEPER);
+        addCreeper(isSnowing(), ModEntities.SNOWY_CREEPER);
+        addCreeper(isSnowing(), ModEntities.CAVE_CREEPER);
 
         addCreeper(tag(BiomeTags.HAS_DESERT_PYRAMID), ModEntities.DESERT_CREEPER);
         addCreeper(tag(BiomeTags.HAS_DESERT_PYRAMID), ModEntities.CAVE_CREEPER);
@@ -71,7 +77,7 @@ public class CreepersFabric implements ModInitializer {
         addCreeper(tag(BiomeTags.IS_TAIGA), ModEntities.SPRUCE_CREEPER);
         addCreeper(tag(BiomeTags.IS_TAIGA), ModEntities.CAVE_CREEPER);
 
-        addCreeper(tag(BiomeTags.IS_MOUNTAIN).and(Predicate.not(precip(Biome.Precipitation.SNOW))), ModEntities.HILLS_CREEPER);
+        addCreeper(tag(BiomeTags.IS_MOUNTAIN).and(Predicate.not(isSnowing())), ModEntities.HILLS_CREEPER);
         addCreeper(tag(BiomeTags.IS_MOUNTAIN), ModEntities.CAVE_CREEPER);
 
         addCreeper(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES, Biomes.LUSH_CAVES), ModEntities.DRIPSTONE_CREEPER);
@@ -90,7 +96,7 @@ public class CreepersFabric implements ModInitializer {
 
     public void removeCreepers() {
         Predicate<BiomeSelectionContext> creepersToRemove = tag(BiomeTags.IS_BEACH)
-                .or(precip(Biome.Precipitation.SNOW))
+                .or(isSnowing())
                 .or(tag(BiomeTags.HAS_DESERT_PYRAMID))
                 .or(tag(BiomeTags.IS_HILL))
                 .or(tag(BiomeTags.IS_SAVANNA))
@@ -110,8 +116,8 @@ public class CreepersFabric implements ModInitializer {
         return BiomeSelectors.tag(tag);
     }
 
-    private static Predicate<BiomeSelectionContext> precip(Biome.Precipitation precipitation) {
-        return ctx -> ctx.getBiome().getPrecipitation().equals(precipitation);
+    private static Predicate<BiomeSelectionContext> isSnowing() {
+        return ctx -> ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW);
     }
 
     private <E extends BaseCreeper> void addCreeper(Predicate<BiomeSelectionContext> selectors, Supplier<EntityType<E>> entityType) {

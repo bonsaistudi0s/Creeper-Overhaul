@@ -18,9 +18,9 @@ public class CreepersClientImpl {
     }
 
     public static void registerBlockRenderType(Supplier<Block> block, RenderType type) {
-        ItemBlockRenderTypes.setRenderLayer(block.get(), type);
     }
 
+    @SuppressWarnings({"rawtypes"})
     public static void registerReplacedEntity(Class<? extends IAnimatable> clazz, GeoReplacedEntityRenderer renderer) {
         //Dont do anything not needed on forge
     }

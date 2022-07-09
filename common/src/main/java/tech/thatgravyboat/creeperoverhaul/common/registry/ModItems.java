@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public class ModItems {
 
-    public static final CreativeModeTab TAB = PlatformUtils.createTab(new ResourceLocation(Creepers.MODID, Creepers.MODID), Items.CREEPER_HEAD::getDefaultInstance);
+    public static final CreativeModeTab TAB = PlatformUtils.createTab(new ResourceLocation(Creepers.MODID, "item_group"), Items.CREEPER_HEAD::getDefaultInstance);
 
     public static final Supplier<SpawnEggItem> JUNGLE_SPAWN_EGG = registerSpawnEgg("jungle_creeper_spawn_egg",
             ModEntities.JUNGLE_CREEPER, 0x507541, 0x59461A, getModProperties());

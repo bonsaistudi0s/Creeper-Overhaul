@@ -28,5 +28,26 @@
   "item.creeperoverhaul.beach_creeper_spawn_egg": "Beach Creeper Spawn Egg",
   "entity.creeperoverhaul.snowy_creeper": "Snowy Creeper",
   "item.creeperoverhaul.snowy_creeper_spawn_egg": "Snowy Creeper Spawn Egg",
-  "block.creeperoverhaul.tiny_cactus": "Tiny Cactus"
+  "block.creeperoverhaul.tiny_cactus": "Tiny Cactus",
+
+  "subtitles.creeperoverhaul.entity.wood.creeper.hit": "Creeper hit",
+  "subtitles.creeperoverhaul.entity.wood.creeper.death": "Creeper dies",
+  "subtitles.creeperoverhaul.entity.wood.creeper.hurt": "Creeper hurts",
+  "subtitles.creeperoverhaul.entity.wood.creeper.prime": "Creeper hisses",
+  "subtitles.creeperoverhaul.entity.wood.creeper.explosion": "Creeper explosion",
+  "subtitles.creeperoverhaul.entity.plant.creeper.hit": "Creeper hit",
+  "subtitles.creeperoverhaul.entity.plant.creeper.death": "Creeper dies",
+  "subtitles.creeperoverhaul.entity.plant.creeper.hurt": "Creeper hurts",
+  "subtitles.creeperoverhaul.entity.plant.creeper.prime": "Creeper hisses",
+  "subtitles.creeperoverhaul.entity.plant.creeper.explosion": "Creeper explosion",
+  "subtitles.creeperoverhaul.entity.stone.creeper.hit": "Creeper hit",
+  "subtitles.creeperoverhaul.entity.stone.creeper.death": "Creeper dies",
+  "subtitles.creeperoverhaul.entity.stone.creeper.hurt": "Creeper hurts",
+  "subtitles.creeperoverhaul.entity.stone.creeper.prime": "Creeper hisses",
+  "subtitles.creeperoverhaul.entity.stone.creeper.explosion": "Creeper explosion",
+  "subtitles.creeperoverhaul.entity.sand.creeper.hit": "Creeper hit",
+  "subtitles.creeperoverhaul.entity.sand.creeper.death": "Creeper dies",
+  "subtitles.creeperoverhaul.entity.sand.creeper.hurt": "Creeper hurts",
+  "subtitles.creeperoverhaul.entity.sand.creeper.prime": "Creeper hisses",
+  "subtitles.creeperoverhaul.entity.sand.creeper.explosion": "Creeper explosion"
 }

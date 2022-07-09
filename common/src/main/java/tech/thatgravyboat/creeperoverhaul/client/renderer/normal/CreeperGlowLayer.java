@@ -23,7 +23,7 @@ public class CreeperGlowLayer<E extends BaseCreeper> extends GeoLayerRenderer<E>
         if (f > 0f || creeper.isPowered()) {
             if (creeper.isPowered()) f = 1f;
 
-            CreeperType type = creeper.getCreeperType();
+            CreeperType type = creeper.type;
 
             GeoModel normalModel = this.getEntityModel().getModel(type.model());
             VertexConsumer glowConsumer = buffer.getBuffer(RenderTypes.getTransparentEyes(type.glowingTexture()));

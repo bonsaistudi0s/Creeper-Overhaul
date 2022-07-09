@@ -26,9 +26,8 @@ public class CreeperPowerLayer<E extends BaseCreeper> extends GeoLayerRenderer<E
 
         float f = (float)creeper.tickCount + partialTicks;
 
-        CreeperType type = creeper.getCreeperType();
-        GeoModel chargedModel = this.getEntityModel().getModel(type.model());
-        RenderType renderType = RenderTypes.getSwirl(type.chargedTexture(), f * 0.005F % 1F,  f * 0.005F % 1F);
+        GeoModel chargedModel = this.getEntityModel().getModel(creeper.type.model());
+        RenderType renderType = RenderTypes.getSwirl(creeper.type.chargedTexture(), f * 0.005F % 1F,  f * 0.005F % 1F);
         VertexConsumer armorConsumer = buffer.getBuffer(renderType);
 
         getRenderer().render(chargedModel, creeper, partialTicks,

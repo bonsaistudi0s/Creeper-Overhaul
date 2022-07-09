@@ -4,7 +4,7 @@ license="All rights reserved"
 
 [[mods]]
     modId="creeperoverhaul"
-    version="${file.jarVersion}"
+    version="1.0.0"
     displayName="Creeper Overhaul"
     logoFile="assets/creeperoverhaul/icon.png"
     authors="Artist/Creator - Joosh, Dev - ThatGravyBoat"

@@ -14,7 +14,6 @@ public class CreeperSwellGoal extends SwellGoal {
 
     @Override
     public boolean canUse() {
-
         return baseCreeper.canSwell() && (baseCreeper.isIgnited() || super.canUse());
     }
 }

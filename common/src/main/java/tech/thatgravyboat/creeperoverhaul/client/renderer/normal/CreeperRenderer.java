@@ -40,7 +40,7 @@ public class CreeperRenderer<E extends BaseCreeper> extends GeoEntityRenderer<E>
 
     @Override
     public ResourceLocation getTextureLocation(@NotNull E entity) {
-        return getTextureResource(entity);
+        return this.modelProvider.getTextureResource(entity);
     }
 
     @Override

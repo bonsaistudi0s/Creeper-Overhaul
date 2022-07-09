@@ -5,7 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,7 +32,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +51,7 @@ import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 public class BaseCreeper extends Creeper implements IAnimatable {
 
@@ -61,13 +63,26 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     private int oldSwell;
     private int swell;
     private int maxSwell = 30;
-    private final CreeperType type;
+    public final CreeperType type;
 
     public BaseCreeper(EntityType<? extends Creeper> entityType, Level level, CreeperType type) {
         super(entityType, level);
         this.type = type;
-        if (!level.isClientSide) this.type.entities().forEach(e ->
-                this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, e, true)));
+        if (!level.isClientSide) {
+            this.type.entities().forEach(e -> this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, e, true)));
+        }
+    }
+
+    public static EntityType.EntityFactory<BaseCreeper> of(CreeperType type) {
+        return (entityType, level) -> new BaseCreeper(entityType, level, type);
+    }
+
+    public static EntityType.EntityFactory<PassiveCreeper> ofPassive(CreeperType type) {
+        return (entityType, level) -> new PassiveCreeper(entityType, level, type);
+    }
+
+    public static EntityType.EntityFactory<NeutralCreeper> ofNeutral(CreeperType type) {
+        return (entityType, level) -> new NeutralCreeper(entityType, level, type);
     }
 
     //region Goals
@@ -80,7 +95,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-       registerAttackGoals();
+        registerAttackGoals();
         if (shouldRevenge()) this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
@@ -108,7 +123,6 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     public void setSheared(boolean sheared) {
         this.getEntityData().set(DATA_IS_SHEARED, sheared);
     }
-
     //endregion
 
     //region NBT
@@ -149,7 +163,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
 
             int i = this.getSwellDir();
             if (i > 0 && this.swell == 0) {
-                this.playSound(SoundEvents.CREEPER_PRIMED, 1.0F, 0.5F);
+                this.playSound(type.primeSound().get(), 1.0F, 0.5F);
                 this.gameEvent(GameEvent.PRIME_FUSE);
             }
 
@@ -171,7 +185,11 @@ public class BaseCreeper extends Creeper implements IAnimatable {
         if (!this.level.isClientSide) {
             Explosion.BlockInteraction interaction = PlatformUtils.getInteractionForCreeper(this);
             this.dead = true;
-            Explosion explosion = this.level.explode(this, this.getX(), this.getY(), this.getZ(), (float)3 * (this.isPowered() ? 2.0F : 1.0F), interaction);
+            Explosion explosion = this.level.explode(this, this.getX(), this.getY(), this.getZ(), 3f * (this.isPowered() ? 2.0f : 1.0f), interaction);
+
+            type.getExplosionSound().ifPresent(s -> this.level.playSound(null, this, s,
+                    SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F));
+
             this.discard();
             if (!this.type.inflictingPotions().isEmpty()) {
                 explosion.getHitPlayers().keySet().forEach(player -> {
@@ -179,19 +197,29 @@ public class BaseCreeper extends Creeper implements IAnimatable {
                     inflictingPotions.forEach(player::addEffect);
                 });
             }
-            if (this.type.dirtReplacement() != null) {
-                Block replacement = this.type.dirtReplacement().get();
+
+            if (!this.type.replacer().isEmpty()) {
+
+                final var entries = this.type.replacer().entrySet();
+
                 explosion.getToBlow().stream()
-                        .map(BlockPos::below)
-                        .filter(pos -> {
-                            BlockState state = level.getBlockState(pos);
-                            return (state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) && this.random.nextInt(3) == 0;
-                        })
-                        .forEach(pos -> level.setBlock(pos, replacement.defaultBlockState(), Block.UPDATE_ALL));
+                    .map(BlockPos::below)
+                    .forEach(pos -> {
+                        BlockState state = level.getBlockState(pos);
+                        for (final var entry : entries) {
+                            if (entry.getKey().test(state)) {
+                                BlockState newState = entry.getValue().apply(this.random);
+                                if (newState != null) {
+                                    level.setBlock(pos, newState, Block.UPDATE_ALL);
+                                    break;
+                                }
+                            }
+                        }
+                    });
             }
-            Collection<MobEffectInstance> collection = this.getActiveEffects().stream().map(MobEffectInstance::new).toList();
-            summonCloudWithEffects(collection);
-            summonCloudWithEffects(this.type.potionsWhenDead().stream().map(MobEffectInstance::new).toList());
+
+            var potions = Stream.concat(this.getActiveEffects().stream().map(MobEffectInstance::new), this.type.potionsWhenDead().stream().map(MobEffectInstance::new));
+            summonCloudWithEffects(potions.toList());
         }
     }
 
@@ -210,19 +238,22 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     }
 
     public float getSwelling(float f) {
-        return Mth.lerp(f, (float)this.oldSwell, (float)this.swell) / (float)(this.maxSwell - 2);
+        return Mth.lerp(f, (float)this.oldSwell, (float)this.swell) / (this.maxSwell - 2f);
+    }
+
+    public boolean canSwell() {
+        return this.type.melee() == 0;
     }
     //endregion
 
     //region Interactions
-
 
     @Override
     protected InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (this.type.melee() == 0 && PlatformUtils.isFlintAndSteel(stack)) {
             this.level.playSound(player, this.blockPosition(), SoundEvents.FLINTANDSTEEL_USE, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
-            if (!this.level.isClientSide) {
+            if (!this.level.isClientSide()) {
                 ignite();
                 stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
             }
@@ -230,7 +261,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
         }
         if (this.type.shearable() && !isSheared() && PlatformUtils.isShears(stack)) {
             this.level.playSound(player, this.blockPosition(), SoundEvents.SNOW_GOLEM_SHEAR, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
-            if (!this.level.isClientSide) {
+            if (!this.level.isClientSide()) {
                 this.entityData.set(DATA_IS_SHEARED, true);
                 stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
                 this.spawnAtLocation(new ItemStack(ModItems.TINY_CACTUS.get()), 1.7F);
@@ -241,18 +272,14 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     }
     //endregion
 
-    public boolean canSwell() {
-        return this.type.melee() == 0;
-    }
-
+    //region Attacking
     public boolean shouldRevenge() {
         return true;
     }
 
     @Override
     public double getAttributeValue(@NotNull Attribute attribute) {
-        double val = super.getAttributeValue(attribute);
-        return attribute.equals(Attributes.ATTACK_DAMAGE) && isPowered() ? val * 10 : val;
+        return super.getAttributeValue(attribute) * (attribute.equals(Attributes.ATTACK_DAMAGE) && isPowered() ? 10 : 1);
     }
 
     @Override
@@ -270,8 +297,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
             entity.setSecondsOnFire(i * 4);
         }
 
-        boolean bl = entity.hurt(DamageSource.mobAttack(this), (float) f);
-        if (bl) {
+        if (entity.hurt(DamageSource.mobAttack(this), (float) f)) {
             if (g > 0.0 && entity instanceof LivingEntity living) {
                 living.knockback(g * 0.5F, Mth.sin(this.getYRot() * 0.017453292F), -Mth.cos(this.getYRot() * 0.017453292F));
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
@@ -279,24 +305,36 @@ public class BaseCreeper extends Creeper implements IAnimatable {
 
             this.doEnchantDamageEffects(this, entity);
             this.setLastHurtMob(entity);
+            return true;
         }
 
-        return bl;
+        return false;
     }
 
     @Override
     public float getSpeed() {
-        if (!isPowered()) return super.getSpeed();
-        return super.getSpeed() * 1.5f;
+        return super.getSpeed() * (this.isPowered() ? 1.5F : 1.0F);
     }
 
-    public boolean isAfraidOf(Entity entity) {
-        return type.entitiesAfraidOf().contains(entity.getType());
+    @Override
+    public boolean isDamageSourceBlocked(@NotNull DamageSource source) {
+        return super.isDamageSourceBlocked(source) || type.immunities().contains(source);
+    }
+    //endregion
+
+    //region Sounds
+
+    @Override
+    protected SoundEvent getHurtSound(@NotNull DamageSource source) {
+        return type.hurtSound().get();
     }
 
-    public CreeperType getCreeperType() {
-        return this.type;
+    @Override
+    protected SoundEvent getDeathSound() {
+        return type.deathSound().get();
     }
+
+    //endregion
 
     //region Animation
     private <E extends IAnimatable> PlayState idle(AnimationEvent<E> event) {

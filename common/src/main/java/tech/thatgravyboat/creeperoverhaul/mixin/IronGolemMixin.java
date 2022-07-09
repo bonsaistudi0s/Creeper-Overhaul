@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.entity.base.PassiveCreeper;
 
 @Mixin(IronGolem.class)
 public abstract class IronGolemMixin extends Mob {
@@ -32,7 +33,10 @@ public abstract class IronGolemMixin extends Mob {
                             .range(followDistance)
                             .selector(entity -> {
                                 if (entity instanceof Enemy) {
-                                    return !(entity instanceof Creeper) || (entity instanceof BaseCreeper creeper && creeper.getCreeperType().melee() != 0);
+                                    if (entity instanceof BaseCreeper creeper) {
+                                        return !(creeper instanceof PassiveCreeper) && creeper.type.melee() != 0;
+                                    }
+                                    return !(entity instanceof Creeper);
                                 }
                                 return false;
                             }));

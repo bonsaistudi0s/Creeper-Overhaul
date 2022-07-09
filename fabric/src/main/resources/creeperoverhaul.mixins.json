@@ -5,6 +5,9 @@
   "client": [
     "fabric.GameRendererMixin"
   ],
+  "mixins": [
+    "fabric.BaseCreeperMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
