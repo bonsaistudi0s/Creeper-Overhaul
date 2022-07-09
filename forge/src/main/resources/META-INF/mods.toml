@@ -13,7 +13,7 @@ license="All rights reserved"
 [[dependencies.creeperoverhaul]]
     modId="geckolib3"
     mandatory=true
-    versionRange="[3.0.12,)"
+    versionRange="[3.1.8,)"
     ordering="AFTER"
     side="BOTH"
 
