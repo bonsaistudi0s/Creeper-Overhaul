@@ -84,8 +84,8 @@ public record CreeperType(
         private boolean shearable;
 
         private Supplier<SoundEvent> deathSound = () -> SoundEvents.CREEPER_DEATH;
-        private Supplier<SoundEvent> explosionSound = null;
-        private Supplier<SoundEvent> hitSound = null;
+        private Supplier<SoundEvent> explosionSound = () -> null;
+        private Supplier<SoundEvent> hitSound = () -> null;
         private Supplier<SoundEvent> hurtSound = () -> SoundEvents.CREEPER_HURT;
         private Supplier<SoundEvent> primeSound = () -> SoundEvents.CREEPER_PRIMED;
 
