@@ -1,6 +1,5 @@
 package tech.thatgravyboat.creeperoverhaul.client.forge;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderers;
