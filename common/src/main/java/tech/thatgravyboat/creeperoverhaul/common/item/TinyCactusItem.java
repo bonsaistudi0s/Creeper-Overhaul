@@ -17,4 +17,9 @@ public class TinyCactusItem extends BlockItem {
     public @Nullable EquipmentSlot getEquipmentSlot(ItemStack stack) {
         return EquipmentSlot.HEAD;
     }
+
+    @PlatformOnly("fabric")
+    public @Nullable net.fabricmc.fabric.api.item.v1.EquipmentSlotProvider fabric_getEquipmentSlotProvider() {
+        return stack -> EquipmentSlot.HEAD;
+    }
 }

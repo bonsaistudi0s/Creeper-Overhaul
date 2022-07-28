@@ -47,10 +47,6 @@ public class CreepersFabric implements ModInitializer {
         addCreepers();
         removeCreepers();
         ModSpawns.addSpawnRules();
-
-        if (ModItems.TINY_CACTUS.get() instanceof ItemExtensions extension) {
-            extension.fabric_setEquipmentSlotProvider(stack -> EquipmentSlot.HEAD);
-        }
     }
 
     public void addCreepers() {
