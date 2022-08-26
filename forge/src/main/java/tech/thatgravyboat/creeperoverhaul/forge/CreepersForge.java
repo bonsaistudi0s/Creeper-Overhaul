@@ -11,13 +11,12 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
-import tech.thatgravyboat.creeperoverhaul.client.CreepersClient;
 import tech.thatgravyboat.creeperoverhaul.client.forge.ClientConfig;
+import tech.thatgravyboat.creeperoverhaul.client.forge.CreepersForgeClient;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
 import tech.thatgravyboat.creeperoverhaul.common.registry.forge.*;
@@ -41,9 +40,10 @@ public class CreepersForge {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_CONFIG);
 
         bus.addListener(this::onAttributes);
-        bus.addListener(this::onClient);
         bus.addListener(this::onComplete);
         bus.addListener(this::onCommonSetup);
+        bus.addListener(CreepersForgeClient::onShaderRegister);
+        bus.addListener(CreepersForgeClient::onClient);
     }
 
     public void onAttributes(EntityAttributeCreationEvent event) {
@@ -58,9 +58,5 @@ public class CreepersForge {
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation(Creepers.MODID, "tiny_cactus"), ModBlocks.POTTED_TINY_CACTUS);
-    }
-
-    public void onClient(FMLClientSetupEvent event) {
-        CreepersClient.registerRenderers();
     }
 }
