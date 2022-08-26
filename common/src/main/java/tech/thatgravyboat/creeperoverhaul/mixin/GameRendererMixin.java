@@ -1,4 +1,4 @@
-package tech.thatgravyboat.creeperoverhaul.mixin.forge;
+package tech.thatgravyboat.creeperoverhaul.mixin;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.GameRenderer;

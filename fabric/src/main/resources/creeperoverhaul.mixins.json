@@ -2,9 +2,7 @@
   "required": true,
   "package": "tech.thatgravyboat.creeperoverhaul.mixin",
   "compatibilityLevel": "JAVA_17",
-  "client": [
-    "fabric.GameRendererMixin"
-  ],
+  "minVersion": "0.8",
   "mixins": [
     "fabric.BaseCreeperMixin"
   ],

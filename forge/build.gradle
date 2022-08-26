@@ -15,7 +15,6 @@ loom {
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
         mixinConfig "creeperoverhaul-common.mixins.json"
-        mixinConfig "creeperoverhaul.mixins.json"
     }
 }
 
