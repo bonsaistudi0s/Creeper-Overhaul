@@ -34,7 +34,7 @@ public record CreeperType(
         Collection<MobEffectInstance> potionsWhenDead,
         Collection<Class<? extends LivingEntity>> entities,
         Collection<DamageSource> immunities,
-        AttributeSupplier attributes,
+        AttributeSupplier.Builder attributes,
         boolean shearable,
 
         Supplier<SoundEvent> deathSound,
@@ -198,7 +198,7 @@ public record CreeperType(
         }
 
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes.build(), shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound);
         }
     }
 

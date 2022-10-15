@@ -27,7 +27,7 @@ public class Creepers {
         ModSounds.init();
     }
 
-    public static void registerAttributes(Map<EntityType<? extends LivingEntity>, AttributeSupplier> attributes) {
+    public static void registerAttributes(Map<EntityType<? extends LivingEntity>, AttributeSupplier.Builder> attributes) {
         attributes.put(ModEntities.JUNGLE_CREEPER.get(), CreeperTypes.JUNGLE.attributes());
         attributes.put(ModEntities.BAMBOO_CREEPER.get(), CreeperTypes.BAMBOO.attributes());
         attributes.put(ModEntities.DESERT_CREEPER.get(), CreeperTypes.DESERT.attributes());

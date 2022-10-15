@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -20,7 +21,6 @@ import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
 import tech.thatgravyboat.creeperoverhaul.common.registry.fabric.FabricAttributes;
-import tech.thatgravyboat.creeperoverhaul.mixin.fabric.DefaultAttributesAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,9 +38,9 @@ public class CreepersFabric implements ModInitializer {
         }
         Creepers.init();
         FabricAttributes.register();
-        Map<EntityType<? extends LivingEntity>, AttributeSupplier> attributes = new HashMap<>();
+        Map<EntityType<? extends LivingEntity>, AttributeSupplier.Builder> attributes = new HashMap<>();
         Creepers.registerAttributes(attributes);
-        attributes.forEach(DefaultAttributesAccessor.getSuppliers()::put);
+        attributes.forEach(FabricDefaultAttributeRegistry::register);
         addCreepers();
         removeCreepers();
         ModSpawns.addSpawnRules();

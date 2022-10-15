@@ -47,9 +47,11 @@ public class CreepersForge {
     }
 
     public void onAttributes(EntityAttributeCreationEvent event) {
-        Map<EntityType<? extends LivingEntity>, AttributeSupplier> attributes = new HashMap<>();
+        Map<EntityType<? extends LivingEntity>, AttributeSupplier.Builder> attributes = new HashMap<>();
         Creepers.registerAttributes(attributes);
-        attributes.forEach(event::put);
+        for (var entry : attributes.entrySet()) {
+            event.put(entry.getKey(), entry.getValue().build());
+        }
     }
 
     public void onComplete(FMLLoadCompleteEvent event) {
