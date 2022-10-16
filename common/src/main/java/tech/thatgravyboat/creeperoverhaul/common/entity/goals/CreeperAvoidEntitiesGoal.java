@@ -1,12 +1,15 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.goals;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
+import tech.thatgravyboat.creeperoverhaul.integration.Origins;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -81,6 +84,10 @@ public class CreeperAvoidEntitiesGoal extends Goal {
     }
 
     public boolean isAfraidOf(Entity entity) {
+        if (entity instanceof Player && Origins.creepersAvoid((Player)entity) &&
+                this.creeper.type.entitiesAfraidOf().contains(EntityType.CAT)) {
+            return true;
+        }
         return this.creeper.type.entitiesAfraidOf().contains(entity.getType());
     }
 }

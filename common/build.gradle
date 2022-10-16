@@ -9,6 +9,8 @@ loom {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modImplementation "software.bernie.geckolib:${rootProject.gecko_lib_fabric_version}"
+    modCompileOnly "curse.maven:origins-391943:${rootProject.origins_file_fabric_version}"
+
 }
 
 publishing {

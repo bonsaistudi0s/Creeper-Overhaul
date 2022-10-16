@@ -30,6 +30,7 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
     modImplementation "software.bernie.geckolib:${rootProject.gecko_lib_forge_version}"
+    modCompileOnly "curse.maven:origins-474438:${rootProject.origins_file_forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

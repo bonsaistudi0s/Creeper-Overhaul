@@ -24,6 +24,7 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     modImplementation "software.bernie.geckolib:${rootProject.gecko_lib_fabric_version}"
+    modCompileOnly "curse.maven:origins-391943:${rootProject.origins_file_fabric_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
