@@ -2,12 +2,11 @@ package tech.thatgravyboat.creeperoverhaul.common.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
-import tech.thatgravyboat.creeperoverhaul.common.item.TinyCactusItem;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
 import java.util.function.Supplier;
@@ -58,7 +57,7 @@ public class ModItems {
     public static final Supplier<SpawnEggItem> SNOWY_SPAWN_EGG = registerSpawnEgg("snowy_creeper_spawn_egg",
             ModEntities.SNOWY_CREEPER, 0xBECDD8, 0xE8F8F9, getModProperties());
 
-    public static final Supplier<Item> TINY_CACTUS = registerItem("tiny_cactus", () -> new TinyCactusItem(ModBlocks.TINY_CACTUS.get(), getModProperties()));
+    public static final Supplier<Item> TINY_CACTUS = registerItem("tiny_cactus", () -> createCactus(ModBlocks.TINY_CACTUS.get(), getModProperties()));
 
     public static void init() {
         //Init Class
@@ -75,6 +74,11 @@ public class ModItems {
 
     @ExpectPlatform
     public static <E extends Mob, T extends EntityType<E>> Supplier<SpawnEggItem> registerSpawnEgg(String id, Supplier<T> entity, int primary, int second, Item.Properties properties) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static BlockItem createCactus(Block block, Item.Properties properties) {
         throw new AssertionError();
     }
 }
