@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -18,6 +19,7 @@ import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.client.forge.ClientConfig;
 import tech.thatgravyboat.creeperoverhaul.client.forge.CreepersForgeClient;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
+import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
 import tech.thatgravyboat.creeperoverhaul.common.registry.forge.*;
 
@@ -42,6 +44,7 @@ public class CreepersForge {
         bus.addListener(this::onAttributes);
         bus.addListener(this::onComplete);
         bus.addListener(this::onCommonSetup);
+        bus.addListener(this::onCreativeModeTabRegister);
         bus.addListener(CreepersForgeClient::onShaderRegister);
         bus.addListener(CreepersForgeClient::onClient);
     }
@@ -60,5 +63,9 @@ public class CreepersForge {
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(new ResourceLocation(Creepers.MODID, "tiny_cactus"), ModBlocks.POTTED_TINY_CACTUS);
+    }
+
+    private void onCreativeModeTabRegister(CreativeModeTabEvent.Register event) {
+        event.registerCreativeModeTab(new ResourceLocation(Creepers.MODID, "item_group"), ModItems::create);
     }
 }

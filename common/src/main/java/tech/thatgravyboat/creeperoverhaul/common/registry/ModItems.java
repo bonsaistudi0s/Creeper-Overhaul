@@ -1,19 +1,39 @@
 package tech.thatgravyboat.creeperoverhaul.common.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import tech.thatgravyboat.creeperoverhaul.Creepers;
-import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 public class ModItems {
 
-    public static final CreativeModeTab TAB = PlatformUtils.createTab(new ResourceLocation(Creepers.MODID, "item_group"), Items.CREEPER_HEAD::getDefaultInstance);
+    public static void create(CreativeModeTab.Builder builder) {
+        builder.icon(Items.CREEPER_HEAD::getDefaultInstance)
+                .displayItems(ModItems::createDisplayItems);
+    }
+
+    protected static void createDisplayItems(FeatureFlagSet flags, @NotNull CreativeModeTab.Output out, boolean hasPermissions) {
+        out.accept(JUNGLE_SPAWN_EGG::get);
+        out.accept(BAMBOO_SPAWN_EGG::get);
+        out.accept(DESERT_SPAWN_EGG::get);
+        out.accept(BADLANDS_SPAWN_EGG::get);
+        out.accept(HILLS_SPAWN_EGG::get);
+        out.accept(SAVANNAH_SPAWN_EGG::get);
+        out.accept(MUSHROOM_SPAWN_EGG::get);
+        out.accept(SWAMP_SPAWN_EGG::get);
+        out.accept(DRIPSTONE_SPAWN_EGG::get);
+        out.accept(CAVE_SPAWN_EGG::get);
+        out.accept(DARK_OAK_SPAWN_EGG::get);
+        out.accept(SPRUCE_SPAWN_EGG::get);
+        out.accept(BEACH_SPAWN_EGG::get);
+        out.accept(SNOWY_SPAWN_EGG::get);
+        out.accept(TINY_CACTUS::get);
+    }
 
     public static final Supplier<SpawnEggItem> JUNGLE_SPAWN_EGG = registerSpawnEgg("jungle_creeper_spawn_egg",
             ModEntities.JUNGLE_CREEPER, 0x507541, 0x59461A, getModProperties());
@@ -64,7 +84,7 @@ public class ModItems {
     }
 
     private static Item.Properties getModProperties() {
-        return new Item.Properties().tab(TAB);
+        return new Item.Properties();
     }
 
     @ExpectPlatform

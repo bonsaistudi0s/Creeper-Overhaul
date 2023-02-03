@@ -5,8 +5,9 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
@@ -14,11 +15,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
+import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
 import tech.thatgravyboat.creeperoverhaul.common.registry.fabric.FabricAttributes;
 
@@ -28,6 +31,8 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class CreepersFabric implements ModInitializer {
+
+    public static CreativeModeTab TAB;
 
     @Override
     public void onInitialize() {
@@ -44,6 +49,7 @@ public class CreepersFabric implements ModInitializer {
         addCreepers();
         removeCreepers();
         ModSpawns.addSpawnRules();
+        TAB = createTab();
     }
 
     public void addCreepers() {
@@ -118,9 +124,15 @@ public class CreepersFabric implements ModInitializer {
     }
 
     private void removeCreeper(Predicate<BiomeSelectionContext> biomeSelector) {
-        ResourceLocation id = Registry.ENTITY_TYPE.getKey(EntityType.CREEPER);
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.CREEPER);
 
         BiomeModifications.create(id).add(ModificationPhase.REMOVALS, biomeSelector,
                 context -> context.getSpawnSettings().removeSpawnsOfEntityType(EntityType.CREEPER));
+    }
+
+    private static CreativeModeTab createTab() {
+        var builder = FabricItemGroup.builder(new ResourceLocation(Creepers.MODID, "item_group"));
+        ModItems.create(builder);
+        return builder.build();
     }
 }

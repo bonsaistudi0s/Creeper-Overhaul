@@ -35,15 +35,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib3.core.AnimationState;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.Animation;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperMeleeAttackGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperSwellGoal;
@@ -53,12 +50,12 @@ import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-public class BaseCreeper extends Creeper implements IAnimatable {
+public class BaseCreeper extends Creeper implements GeoEntity {
 
     private static final EntityDataAccessor<Boolean> DATA_IS_ATTACKING = SynchedEntityData.defineId(BaseCreeper.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_IS_SHEARED = SynchedEntityData.defineId(BaseCreeper.class, EntityDataSerializers.BOOLEAN);
 
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
 
     private int oldSwell;
     private int swell;
@@ -183,7 +180,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
 
     public void explode() {
         if (!this.level.isClientSide) {
-            Explosion.BlockInteraction interaction = PlatformUtils.getInteractionForCreeper(this);
+            Level.ExplosionInteraction interaction = PlatformUtils.getInteractionForCreeper(this);
             this.dead = true;
             Explosion explosion = this.level.explode(this, this.getX(), this.getY(), this.getZ(), 3f * (this.isPowered() ? 2.0f : 1.0f), interaction);
 
@@ -337,34 +334,34 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     //endregion
 
     //region Animation
-    private <E extends IAnimatable> PlayState idle(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.idle", true));
+    private <E extends GeoAnimatable> PlayState idle(AnimationState<E> event) {
+        event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.creeper.idle"));
         return PlayState.CONTINUE;
     }
 
-    private <E extends IAnimatable> PlayState action(AnimationEvent<E> event) {
-        Animation animation = event.getController().getCurrentAnimation();
+    private <E extends GeoAnimatable> PlayState action(AnimationState<E> event) {
+        AnimationProcessor.QueuedAnimation animation = event.getController().getCurrentAnimation();
         if (entityData.get(DATA_IS_ATTACKING)) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.attack", false));
+            event.getController().setAnimation(RawAnimation.begin().thenPlay("animation.creeper.attack"));
             return PlayState.CONTINUE;
-        } else if (animation != null && animation.animationName.equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationState.Running)) {
+        } else if (animation != null && animation.animation().name().equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationController.State.RUNNING)) {
             return PlayState.CONTINUE;
         } else if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.walk", true));
+            event.getController().setAnimation(RawAnimation.begin().thenLoop("animation.creeper.walk"));
             return PlayState.CONTINUE;
         }
-        event.getController().markNeedsReload();
+        event.getController().forceAnimationReset();
         return PlayState.STOP;
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "action_controller", 3, this::action));
-        data.addAnimationController(new AnimationController<>(this, "idle_controller", 0, this::idle));
+    public void registerControllers(AnimatableManager.ControllerRegistrar registrar) {
+        registrar.add(new AnimationController<>(this, "action_controller", 3, this::action));
+        registrar.add(new AnimationController<>(this, "idle_controller", 0, this::idle));
     }
 
     @Override
-    public AnimationFactory getFactory() {
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.factory;
     }
     //endregion

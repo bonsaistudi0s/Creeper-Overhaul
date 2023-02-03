@@ -1,16 +1,15 @@
 package tech.thatgravyboat.creeperoverhaul.client.renderer.normal;
 
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
+import net.minecraft.util.Mth;
+import software.bernie.geckolib.constant.DataTickets;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 
-import java.util.List;
-
-public class CreeperModel<E extends BaseCreeper> extends AnimatedGeoModel<E> {
+public class CreeperModel<E extends BaseCreeper> extends GeoModel<E> {
 
     private final CreeperType type;
 
@@ -33,16 +32,15 @@ public class CreeperModel<E extends BaseCreeper> extends AnimatedGeoModel<E> {
         return type.animation();
     }
 
-
     @Override
-    public void setLivingAnimations(E entity, Integer uniqueID, @Nullable AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(E animatable, long instanceId, AnimationState<E> customPredicate) {
+        super.setCustomAnimations(animatable, instanceId, customPredicate);
 
         if (customPredicate == null) return;
-        List<EntityModelData> extraDataOfType = customPredicate.getExtraDataOfType(EntityModelData.class);
+        EntityModelData extraDataOfType = customPredicate.getData(DataTickets.ENTITY_MODEL_DATA);
         var head = this.getAnimationProcessor().getBone("head");
         if (head != null) {
-            head.setRotationY(extraDataOfType.get(0).netHeadYaw * ((float)Math.PI / 180F));
+            head.setRotY(extraDataOfType.netHeadYaw() * (Mth.DEG_TO_RAD));
         }
     }
 }

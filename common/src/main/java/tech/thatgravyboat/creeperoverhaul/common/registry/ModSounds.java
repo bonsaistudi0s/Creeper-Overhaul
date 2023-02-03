@@ -36,7 +36,7 @@ public class ModSounds {
     }
 
     private static Supplier<SoundEvent> registerSound(String id) {
-        return registerSound(id, () -> new SoundEvent(new ResourceLocation(Creepers.MODID, id)));
+        return registerSound(id, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Creepers.MODID, id)));
     }
 
     @ExpectPlatform

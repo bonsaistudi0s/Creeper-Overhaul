@@ -31,6 +31,6 @@
     "fabric": "*",
     "minecraft": "1.19.x",
     "java": ">=17",
-    "geckolib3": "*"
+    "geckolib": "*"
   }
 }
