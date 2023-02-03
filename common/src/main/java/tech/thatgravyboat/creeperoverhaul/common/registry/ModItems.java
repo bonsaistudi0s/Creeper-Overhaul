@@ -18,19 +18,19 @@ public class ModItems {
     }
 
     protected static void createDisplayItems(FeatureFlagSet flags, @NotNull CreativeModeTab.Output out, boolean hasPermissions) {
+        out.accept(SPRUCE_SPAWN_EGG::get);
         out.accept(JUNGLE_SPAWN_EGG::get);
         out.accept(BAMBOO_SPAWN_EGG::get);
+        out.accept(DARK_OAK_SPAWN_EGG::get);
+        out.accept(SAVANNAH_SPAWN_EGG::get);
+        out.accept(BEACH_SPAWN_EGG::get);
         out.accept(DESERT_SPAWN_EGG::get);
         out.accept(BADLANDS_SPAWN_EGG::get);
         out.accept(HILLS_SPAWN_EGG::get);
-        out.accept(SAVANNAH_SPAWN_EGG::get);
         out.accept(MUSHROOM_SPAWN_EGG::get);
         out.accept(SWAMP_SPAWN_EGG::get);
         out.accept(DRIPSTONE_SPAWN_EGG::get);
         out.accept(CAVE_SPAWN_EGG::get);
-        out.accept(DARK_OAK_SPAWN_EGG::get);
-        out.accept(SPRUCE_SPAWN_EGG::get);
-        out.accept(BEACH_SPAWN_EGG::get);
         out.accept(SNOWY_SPAWN_EGG::get);
         out.accept(TINY_CACTUS::get);
     }

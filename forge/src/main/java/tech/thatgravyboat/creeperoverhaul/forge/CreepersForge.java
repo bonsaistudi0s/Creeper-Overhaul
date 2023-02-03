@@ -1,5 +1,6 @@
 package tech.thatgravyboat.creeperoverhaul.forge;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -66,6 +67,10 @@ public class CreepersForge {
     }
 
     private void onCreativeModeTabRegister(CreativeModeTabEvent.Register event) {
-        event.registerCreativeModeTab(new ResourceLocation(Creepers.MODID, "item_group"), ModItems::create);
+        ResourceLocation location = new ResourceLocation(Creepers.MODID, "item_group");
+        event.registerCreativeModeTab(location, (builder) -> {
+            builder.title(Component.translatable("itemGroup.%s.%s".formatted(location.getNamespace(), location.getPath())));
+            ModItems.create(builder);
+        });
     }
 }
