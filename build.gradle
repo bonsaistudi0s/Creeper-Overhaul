@@ -21,7 +21,7 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "software.bernie.geckolib:geckolib-fabric-1.18:3.0.35"
+	modImplementation "software.bernie.geckolib:geckolib-fabric-1.18:3.0.80"
 }
 
 loom {
