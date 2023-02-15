@@ -34,11 +34,12 @@ public class CreeperModel<E extends BaseCreeper> extends AnimatedGeoModel<E> {
     }
 
     @Override
-    public void setLivingAnimations(E entity, Integer uniqueID, @Nullable AnimationEvent customPredicate) {
-        super.setLivingAnimations(entity, uniqueID, customPredicate);
+    public void setCustomAnimations(E entity, int uniqueID, @Nullable AnimationEvent customPredicate) {
+        super.setCustomAnimations(entity, uniqueID, customPredicate);
 
         if (customPredicate == null) return;
-        List<EntityModelData> extraDataOfType = customPredicate.getExtraDataOfType(EntityModelData.class);
+        List<EntityModelData> extraDataOfType = ((AnimationEvent<?>)customPredicate)
+                .getExtraDataOfType(EntityModelData.class);
         var head = this.getAnimationProcessor().getBone("head");
         if (head != null) {
             head.setRotationY(extraDataOfType.get(0).netHeadYaw * ((float)Math.PI / 180F));

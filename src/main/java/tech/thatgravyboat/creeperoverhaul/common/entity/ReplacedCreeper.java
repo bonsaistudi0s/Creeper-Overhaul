@@ -7,12 +7,13 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.manager.InstancedAnimationFactory;
 
 import static software.bernie.geckolib3.core.builder.ILoopType.EDefaultLoopTypes.LOOP;
 
 public class ReplacedCreeper implements IAnimatable {
 
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new InstancedAnimationFactory(this);
 
     @Override
     public void registerControllers(AnimationData data) {

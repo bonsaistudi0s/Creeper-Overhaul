@@ -47,6 +47,7 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.core.manager.InstancedAnimationFactory;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperMeleeAttackGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperSwellGoal;
@@ -54,6 +55,8 @@ import tech.thatgravyboat.creeperoverhaul.common.registry.ModAttributes;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 
 import java.util.Collection;
+
+import static software.bernie.geckolib3.core.builder.ILoopType.EDefaultLoopTypes.LOOP;
 
 public class BaseCreeper extends HostileEntity implements SkinOverlayOwner, IAnimatable {
 
@@ -69,7 +72,7 @@ public class BaseCreeper extends HostileEntity implements SkinOverlayOwner, IAni
     private int oldSwell;
     private int droppedSkulls;
 
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new InstancedAnimationFactory(this);
 
     private final CreeperType type;
 
@@ -342,19 +345,19 @@ public class BaseCreeper extends HostileEntity implements SkinOverlayOwner, IAni
     //region Animation
 
     private <E extends IAnimatable> PlayState idle(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.idle", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.idle", LOOP));
         return PlayState.CONTINUE;
     }
 
     private <E extends IAnimatable> PlayState action(AnimationEvent<E> event) {
         Animation animation = event.getController().getCurrentAnimation();
         if (dataTracker.get(DATA_IS_ATTACKING)) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.attack", false));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.attack", LOOP));
             return PlayState.CONTINUE;
         } else if (animation != null && animation.animationName.equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationState.Running)) {
             return PlayState.CONTINUE;
         } else if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.walk", LOOP));
             return PlayState.CONTINUE;
         }
         event.getController().markNeedsReload();
