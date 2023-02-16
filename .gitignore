@@ -1,3 +1,6 @@
+# git
+/.github/
+
 # gradle
 
 .gradle/
@@ -31,3 +34,4 @@ bin/
 # fabric
 
 run/
+/.github/

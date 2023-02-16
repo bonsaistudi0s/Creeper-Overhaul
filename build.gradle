@@ -6,9 +6,10 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
-archivesBaseName = project.archives_base_name
+minecraft_version = project.minecraft_version
 version = project.mod_version
 group = project.maven_group
+archivesBaseName = project.archives_base_name + "-fabric-" + minecraft_version
 
 repositories {
 	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
@@ -16,12 +17,12 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}+${project.minecraft_version}"
 
-	modImplementation "software.bernie.geckolib:geckolib-fabric-1.18:3.0.35"
+	modImplementation "software.bernie.geckolib:geckolib-fabric-1.18:${project.geckolib_version}"
 }
 
 loom {
