@@ -1,16 +1,22 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Stray;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
+import tech.thatgravyboat.creeperoverhaul.common.entity.custom.PufferfishCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSounds;
+
+import java.util.Locale;
 
 public class CreeperTypes {
 
@@ -52,7 +58,7 @@ public class CreeperTypes {
             .setChargedTexture(modLoc("textures/entity/armor/creeper_armor_2.png"))
             .setModel(modLoc("geo/desert.geo.json"))
             .setShearedModel(modLoc("geo/desert_sheared.geo.json"))
-            .setShearable(true)
+            .setShearable(() -> new ItemStack(ModItems.TINY_CACTUS.get()))
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
@@ -70,7 +76,7 @@ public class CreeperTypes {
             .setChargedTexture(modLoc("textures/entity/armor/creeper_armor_2.png"))
             .setModel(modLoc("geo/badlands.geo.json"))
             .setShearedModel(modLoc("geo/badlands_sheared.geo.json"))
-            .setShearable(true)
+            .setShearable(() -> new ItemStack(ModItems.TINY_CACTUS.get()))
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
@@ -231,6 +237,39 @@ public class CreeperTypes {
             .setMelee(5)
             .addAttribute(Attributes.ATTACK_DAMAGE, 4)
             .addAttackingEntities(Stray.class)
+            .build();
+
+    public static final CreeperType OCEAN = new CreeperType.Builder()
+            .setTexture(creeper -> {
+                if (creeper instanceof PufferfishCreeper pufferfish) {
+                    int id = pufferfish.getPuffId();
+                    PufferfishCreeper.Variant variant = pufferfish.getVariant();
+                    return modLoc("textures/entity/ocean/" + variant.name().toLowerCase(Locale.ROOT) + "_" + id + ".png");
+                }
+                return modLoc("textures/entity/ocean/brown_1.png");
+            })
+            .setGlowingTexture(modLoc("textures/entity/ocean/glow.png"))
+            .setChargedTexture(modLoc("textures/entity/armor/creeper_armor_4.png"))
+            .setModel(creeper -> {
+                if (creeper instanceof PufferfishCreeper pufferfish) {
+                    int id = pufferfish.getPuffId();
+                    return modLoc("geo/ocean_" + id + ".geo.json");
+                }
+                return modLoc("geo/ocean_1.geo.json");
+            })
+            .setAnimation(modLoc("animations/ocean.animation.json"))
+            .addAttribute(Attributes.MAX_HEALTH, 16)
+            .addAttribute(Attributes.MOVEMENT_SPEED, 2)
+            .addAttribute("reach_distance", 3)
+            .addAttribute("swim_speed", 2)
+            .setDeathSounds(ModSounds.OCEAN_DEATH)
+            .setHurtSound(creeper -> {
+                if (creeper instanceof PufferfishCreeper fish && fish.getPuffId() == 3) {
+                    return ModSounds.OCEAN_HURT_INFLATED.get();
+                }
+                return ModSounds.OCEAN_HURT_DEFLATED.get();
+            })
+            .setFlopSounds(() -> SoundEvents.PUFFER_FISH_FLOP)
             .build();
 
     private static ResourceLocation modLoc(String string) {

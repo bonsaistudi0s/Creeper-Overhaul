@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -44,6 +45,8 @@ public class CreepersFabric implements ModInitializer {
         addCreepers();
         removeCreepers();
         ModSpawns.addSpawnRules();
+
+        ServerLifecycleEvents.SERVER_STARTING.register(event -> PluginLoader.load());
     }
 
     public void addCreepers() {
@@ -85,6 +88,9 @@ public class CreepersFabric implements ModInitializer {
 
         addCreeper(BiomeSelectors.includeByKey(Biomes.DARK_FOREST), ModEntities.DARK_OAK_CREEPER);
         addCreeper(BiomeSelectors.includeByKey(Biomes.DARK_FOREST), ModEntities.CAVE_CREEPER);
+
+        addCreeper(BiomeSelectors.includeByKey(Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN), ModEntities.OCEAN_CREEPER, 2);
+        addCreeper(BiomeSelectors.includeByKey(Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN), ModEntities.CAVE_CREEPER);
     }
 
     public void removeCreepers() {
@@ -100,7 +106,8 @@ public class CreepersFabric implements ModInitializer {
                 .or(BiomeSelectors.includeByKey(Biomes.DRIPSTONE_CAVES, Biomes.LUSH_CAVES))
                 .or(tag(BiomeTags.IS_JUNGLE))
                 .or(tag(BiomeTags.HAS_RUINED_PORTAL_SWAMP))
-                .or(BiomeSelectors.includeByKey(Biomes.DARK_FOREST));
+                .or(BiomeSelectors.includeByKey(Biomes.DARK_FOREST))
+                .or(BiomeSelectors.includeByKey(Biomes.WARM_OCEAN, Biomes.LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN));
 
         removeCreeper(creepersToRemove);
     }
@@ -114,7 +121,11 @@ public class CreepersFabric implements ModInitializer {
     }
 
     private <E extends BaseCreeper> void addCreeper(Predicate<BiomeSelectionContext> selectors, Supplier<EntityType<E>> entityType) {
-        BiomeModifications.addSpawn(selectors.and(BiomeSelectors.foundInOverworld()), entityType.get().getCategory(), entityType.get(), 75, 2, 2);
+        addCreeper(selectors, entityType, 75);
+    }
+
+    private <E extends BaseCreeper> void addCreeper(Predicate<BiomeSelectionContext> selectors, Supplier<EntityType<E>> entityType, int weight) {
+        BiomeModifications.addSpawn(selectors.and(BiomeSelectors.foundInOverworld()), entityType.get().getCategory(), entityType.get(), weight, 2, 2);
     }
 
     private void removeCreeper(Predicate<BiomeSelectionContext> biomeSelector) {

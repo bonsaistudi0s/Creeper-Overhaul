@@ -42,5 +42,6 @@ public class Creepers {
         attributes.put(ModEntities.SPRUCE_CREEPER.get(), CreeperTypes.SPRUCE.attributes());
         attributes.put(ModEntities.BEACH_CREEPER.get(), CreeperTypes.BEACH.attributes());
         attributes.put(ModEntities.SNOWY_CREEPER.get(), CreeperTypes.SNOWY.attributes());
+        attributes.put(ModEntities.OCEAN_CREEPER.get(), CreeperTypes.OCEAN.attributes());
     }
 }

@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:lukewarm_ocean",
+    "minecraft:deep_lukewarm_ocean",
+    "minecraft:warm_ocean"
+  ],
+  "spawners" : {
+    "type": "creeperoverhaul:ocean_creeper",
+    "weight": 2,
+    "minCount": 2,
+    "maxCount": 2
+  }
+}

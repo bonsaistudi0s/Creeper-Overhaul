@@ -15,6 +15,8 @@
     "minecraft:stony_peaks",
     "minecraft:dripstone_caves",
     "minecraft:lush_caves",
-    "minecraft:dark_forest"
+    "minecraft:lukewarm_ocean",
+    "minecraft:deep_lukewarm_ocean",
+    "minecraft:warm_ocean"
   ]
 }

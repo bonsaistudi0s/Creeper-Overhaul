@@ -23,6 +23,7 @@ public abstract class IronGolemMixin extends Mob {
         super(p_21368_, p_21369_);
     }
 
+    //Can likely be replaced by injecting into the lambda which is `method_6498` in `IronGolem`
     @Inject(method = "registerGoals", at = @At("TAIL"))
     private void onRegisterGoals(CallbackInfo ci) {
         for (WrappedGoal availableGoal : this.targetSelector.getAvailableGoals()) {
@@ -34,7 +35,7 @@ public abstract class IronGolemMixin extends Mob {
                             .selector(entity -> {
                                 if (entity instanceof Enemy) {
                                     if (entity instanceof BaseCreeper creeper) {
-                                        return !(creeper instanceof PassiveCreeper) && creeper.type.melee() != 0;
+                                        return !(creeper instanceof PassiveCreeper) && !creeper.canSwell();
                                     }
                                     return !(entity instanceof Creeper);
                                 }

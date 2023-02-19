@@ -8,6 +8,7 @@ import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.NeutralCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.PassiveCreeper;
+import tech.thatgravyboat.creeperoverhaul.common.entity.custom.PufferfishCreeper;
 
 import java.util.function.Supplier;
 
@@ -68,6 +69,10 @@ public class ModEntities {
     public static final Supplier<EntityType<NeutralCreeper>> SNOWY_CREEPER = registerEntity("snowy_creeper",
             () -> EntityType.Builder.of(BaseCreeper.ofNeutral(CreeperTypes.SNOWY), MobCategory.MONSTER).sized(0.7F, 1.7F)
                     .clientTrackingRange(8).build("snowy_creeper"));
+
+    public static final Supplier<EntityType<PufferfishCreeper>> OCEAN_CREEPER = registerEntity("ocean_creeper",
+            () -> EntityType.Builder.of(PufferfishCreeper.ofPufferfish(CreeperTypes.OCEAN), MobCategory.MONSTER).sized(0.7F, 1.7F)
+                    .clientTrackingRange(8).build("ocean_creeper"));
 
     public static void init() {
         //Init Class

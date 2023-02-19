@@ -1,0 +1,88 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.ocean_creeper_2",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "main",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "head",
+					"parent": "main",
+					"pivot": [1, 8.5, -1],
+					"cubes": [
+						{"origin": [-5, 7.5, -5], "size": [10, 10, 10], "uv": [0, 15]},
+						{"origin": [-5, 7.5, -5], "size": [10, 10, 10], "inflate": 2, "uv": [0, 108]}
+					]
+				},
+				{
+					"name": "spines",
+					"parent": "head",
+					"pivot": [1, -9.5, -1],
+					"cubes": [
+						{"origin": [5, 9.5, -5], "size": [2, 7, 0], "pivot": [5, 11.5, -5], "rotation": [0, 45, 0], "uv": [22, 0], "mirror": true},
+						{"origin": [-7, 9.5, -5], "size": [2, 7, 0], "pivot": [-5, 11.5, -5], "rotation": [0, -45, 0], "uv": [22, 0]},
+						{"origin": [-5, 17.5, -5], "size": [10, 2, 0], "pivot": [1, 17.5, -5], "rotation": [45, 0, 0], "uv": [27, 0]},
+						{"origin": [5, 9.5, 5], "size": [2, 7, 0], "pivot": [5, 11.5, 5], "rotation": [0, -45, 0], "uv": [22, 0], "mirror": true},
+						{"origin": [-7, 9.5, 5], "size": [2, 7, 0], "pivot": [-5, 11.5, 5], "rotation": [0, 45, 0], "uv": [22, 0]},
+						{"origin": [-5, 17.5, 5], "size": [10, 2, 0], "pivot": [1, 17.5, 5], "rotation": [-45, 0, 0], "uv": [27, 0]},
+						{"origin": [-5, 17.5, -5], "size": [0, 2, 10], "pivot": [-5, 17.5, 0], "rotation": [0, 0, -45], "uv": [26, -2]},
+						{"origin": [5, 17.5, -5], "size": [0, 2, 10], "pivot": [5, 17.5, 0], "rotation": [0, 0, 45], "uv": [26, -2], "mirror": true}
+					]
+				},
+				{
+					"name": "left_fin",
+					"parent": "head",
+					"pivot": [5, 11.5, -1],
+					"rotation": [0, -30, 0],
+					"cubes": [
+						{"origin": [4, 8.5, -1], "size": [5, 6, 0], "uv": [0, 10], "mirror": true}
+					]
+				},
+				{
+					"name": "right_fin",
+					"parent": "head",
+					"pivot": [-5, 11.5, -1],
+					"rotation": [0, 30, 0],
+					"cubes": [
+						{"origin": [-9, 8.5, -1], "size": [5, 6, 0], "uv": [0, 10]}
+					]
+				},
+				{
+					"name": "body",
+					"parent": "main",
+					"pivot": [0, 8, 0],
+					"cubes": [
+						{"origin": [-3, 2, -2], "size": [6, 6, 4], "uv": [0, 0]},
+						{"origin": [-3, 2, -2], "size": [6, 6, 4], "inflate": 2, "uv": [0, 93]}
+					]
+				},
+				{
+					"name": "fin",
+					"parent": "body",
+					"pivot": [0, 3.5, -1.5],
+					"rotation": [15, 5, 0]
+				},
+				{
+					"name": "fin_2",
+					"parent": "fin",
+					"pivot": [0, 3.5, -1.5],
+					"cubes": [
+						{"origin": [-0.5, -1.5, -3], "size": [1, 5, 6], "uv": [14, 4]},
+						{"origin": [0, -3.5, -3], "size": [0, 6, 8], "uv": [28, 2]},
+						{"origin": [-0.5, -1.5, -3], "size": [1, 5, 6], "inflate": 2, "uv": [14, 97]}
+					]
+				}
+			]
+		}
+	]
+}

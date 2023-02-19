@@ -119,5 +119,42 @@
     "sounds": [
       "creeperoverhaul:wood_creeper_prime"
     ]
+  },
+  "entity.ocean.creeper.death": {
+    "subtitle": "subtitles.creeperoverhaul.entity.ocean.creeper.death",
+    "sounds": [
+      "creeperoverhaul:ocean_creeper_death",
+      "creeperoverhaul:ocean_creeper_death_2"
+    ]
+  },
+  "entity.ocean.creeper.hurt_inflated": {
+    "subtitle": "subtitles.creeperoverhaul.entity.ocean.creeper.hurt",
+    "sounds": [
+      "creeperoverhaul:ocean_creeper_hurt_inflated",
+      "creeperoverhaul:ocean_creeper_hurt_inflated_2",
+      "creeperoverhaul:ocean_creeper_hurt_inflated_3",
+      "creeperoverhaul:ocean_creeper_hurt_inflated_4"
+    ]
+  },
+  "entity.ocean.creeper.hurt_deflated": {
+    "subtitle": "subtitles.creeperoverhaul.entity.ocean.creeper.hurt",
+    "sounds": [
+      "creeperoverhaul:ocean_creeper_hurt",
+      "creeperoverhaul:ocean_creeper_hurt_2",
+      "creeperoverhaul:ocean_creeper_hurt_3",
+      "creeperoverhaul:ocean_creeper_hurt_4"
+    ]
+  },
+  "entity.ocean.creeper.inflate": {
+    "subtitle": "subtitles.creeperoverhaul.entity.ocean.creeper.inflate",
+    "sounds": [
+      "creeperoverhaul:ocean_creeper_inflate"
+    ]
+  },
+  "entity.ocean.creeper.deflate": {
+    "subtitle": "subtitles.creeperoverhaul.entity.ocean.creeper.deflate",
+    "sounds": [
+      "creeperoverhaul:ocean_creeper_deflate"
+    ]
   }
 }

@@ -11,7 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
@@ -21,12 +21,12 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public record CreeperType(
-        ResourceLocation texture,
-        ResourceLocation glowingTexture,
-        ResourceLocation chargedTexture,
-        ResourceLocation model,
-        ResourceLocation shearedModel,
-        ResourceLocation animation,
+        Function<BaseCreeper, ResourceLocation> texture,
+        Function<BaseCreeper, ResourceLocation> glowingTexture,
+        Function<BaseCreeper, ResourceLocation> chargedTexture,
+        Function<BaseCreeper, ResourceLocation> model,
+        Function<BaseCreeper, ResourceLocation> shearedModel,
+        Function<BaseCreeper, ResourceLocation> animation,
         int melee,
         Map<Predicate<BlockState>, Function<RandomSource, BlockState>> replacer,
         Collection<EntityType<?>> entitiesAfraidOf,
@@ -35,42 +35,57 @@ public record CreeperType(
         Collection<Class<? extends LivingEntity>> entities,
         Collection<DamageSource> immunities,
         AttributeSupplier.Builder attributes,
-        boolean shearable,
+        Supplier<ItemStack> shearDrop,
 
-        Supplier<SoundEvent> deathSound,
-        Supplier<SoundEvent> explosionSound,
-        Supplier<SoundEvent> hitSound,
-        Supplier<SoundEvent> hurtSound,
-        Supplier<SoundEvent> primeSound
+        Function<BaseCreeper, SoundEvent> deathSound,
+        Function<BaseCreeper, SoundEvent> explosionSound,
+        Function<BaseCreeper, SoundEvent> hitSound,
+        Function<BaseCreeper, SoundEvent> hurtSound,
+        Function<BaseCreeper, SoundEvent> primeSound,
+        Function<BaseCreeper, SoundEvent> swimSound,
+        Function<BaseCreeper, SoundEvent> flopSound
 ) {
 
-    public Optional<SoundEvent> getDeathSound() {
-        return Optional.ofNullable(deathSound.get());
+    public Optional<SoundEvent> getDeathSound(BaseCreeper creeper) {
+        return Optional.ofNullable(deathSound.apply(creeper));
     }
 
-    public Optional<SoundEvent> getExplosionSound() {
-        return Optional.ofNullable(explosionSound.get());
+    public Optional<SoundEvent> getExplosionSound(BaseCreeper creeper) {
+        return Optional.ofNullable(explosionSound.apply(creeper));
     }
 
-    public Optional<SoundEvent> getHitSound() {
-        return Optional.ofNullable(hitSound.get());
+    public Optional<SoundEvent> getHitSound(BaseCreeper creeper) {
+        return Optional.ofNullable(hitSound.apply(creeper));
     }
 
-    public Optional<SoundEvent> getHurtSound() {
-        return Optional.ofNullable(hurtSound.get());
+    public Optional<SoundEvent> getHurtSound(BaseCreeper creeper) {
+        return Optional.ofNullable(hurtSound.apply(creeper));
     }
 
-    public Optional<SoundEvent> getPrimeSound() {
-        return Optional.ofNullable(primeSound.get());
+    public Optional<SoundEvent> getPrimeSound(BaseCreeper creeper) {
+        return Optional.ofNullable(primeSound.apply(creeper));
+    }
+
+    public Optional<SoundEvent> getSwimSound(BaseCreeper creeper) {
+        return Optional.ofNullable(swimSound.apply(creeper));
+    }
+
+    public Optional<SoundEvent> getFlopSound(BaseCreeper creeper) {
+        return Optional.ofNullable(flopSound.apply(creeper));
+    }
+
+
+    public boolean isShearable() {
+        return shearDrop != null;
     }
 
     public static class Builder {
-        private ResourceLocation texture;
-        private ResourceLocation glowingTexture;
-        private ResourceLocation chargedTexture;
-        private ResourceLocation model;
-        private ResourceLocation shearedModel;
-        private ResourceLocation animation;
+        private Function<BaseCreeper, ResourceLocation> texture;
+        private Function<BaseCreeper, ResourceLocation> glowingTexture;
+        private Function<BaseCreeper, ResourceLocation> chargedTexture;
+        private Function<BaseCreeper, ResourceLocation> model;
+        private Function<BaseCreeper, ResourceLocation> shearedModel;
+        private Function<BaseCreeper, ResourceLocation> animation;
         private int melee = 0;
         private final List<EntityType<?>> afraidOf = new ArrayList<>();
         private final List<MobEffectInstance> inflictingPotions = new ArrayList<>();
@@ -81,42 +96,69 @@ public record CreeperType(
         private final AttributeSupplier.Builder attributes = Creeper.createAttributes()
                 .add(PlatformUtils.getModAttribute("reach_distance"), 0)
                 .add(PlatformUtils.getModAttribute("swim_speed"));
-        private boolean shearable;
+        private Supplier<ItemStack> shearable = null;
 
-        private Supplier<SoundEvent> deathSound = () -> SoundEvents.CREEPER_DEATH;
-        private Supplier<SoundEvent> explosionSound = () -> null;
-        private Supplier<SoundEvent> hitSound = () -> null;
-        private Supplier<SoundEvent> hurtSound = () -> SoundEvents.CREEPER_HURT;
-        private Supplier<SoundEvent> primeSound = () -> SoundEvents.CREEPER_PRIMED;
+        private Function<BaseCreeper, SoundEvent> deathSound = creeper -> SoundEvents.CREEPER_DEATH;
+        private Function<BaseCreeper, SoundEvent> explosionSound = creeper -> null;
+        private Function<BaseCreeper, SoundEvent> hitSound = creeper -> null;
+        private Function<BaseCreeper, SoundEvent> hurtSound = creeper -> SoundEvents.CREEPER_HURT;
+        private Function<BaseCreeper, SoundEvent> primeSound = creeper -> SoundEvents.CREEPER_PRIMED;
+        private Function<BaseCreeper, SoundEvent> swimSound = creeper -> SoundEvents.GENERIC_SWIM;
+        private Function<BaseCreeper, SoundEvent> flopSound = creeper -> SoundEvents.GUARDIAN_FLOP;
 
         public Builder setTexture(ResourceLocation texture) {
+            this.texture = creeper -> texture;
+            return this;
+        }
+
+        public Builder setTexture(Function<BaseCreeper, ResourceLocation> texture) {
             this.texture = texture;
             return this;
         }
 
-        public Builder setGlowingTexture(ResourceLocation glowingTexture) {
+        public Builder setGlowingTexture(Function<BaseCreeper, ResourceLocation> glowingTexture) {
             this.glowingTexture = glowingTexture;
             return this;
         }
 
-        public Builder setChargedTexture(ResourceLocation chargedTexture) {
+        public Builder setGlowingTexture(ResourceLocation glowingTexture) {
+            return setGlowingTexture(creeper -> glowingTexture);
+        }
+
+        public Builder setChargedTexture(Function<BaseCreeper, ResourceLocation> chargedTexture) {
             this.chargedTexture = chargedTexture;
             return this;
         }
 
-        public Builder setModel(ResourceLocation model) {
+        public Builder setChargedTexture(ResourceLocation chargedTexture) {
+            return setChargedTexture(creeper -> chargedTexture);
+        }
+
+        public Builder setModel(Function<BaseCreeper, ResourceLocation> model) {
             this.model = model;
             return this;
         }
 
-        public Builder setShearedModel(ResourceLocation shearedModel) {
+        public Builder setModel(ResourceLocation model) {
+            return setModel(creeper -> model);
+        }
+
+        public Builder setShearedModel(Function<BaseCreeper, ResourceLocation> shearedModel) {
             this.shearedModel = shearedModel;
             return this;
         }
 
-        public Builder setAnimation(ResourceLocation animation) {
+        public Builder setShearedModel(ResourceLocation shearedModel) {
+            return setShearedModel(creeper -> shearedModel);
+        }
+
+        public Builder setAnimation(Function<BaseCreeper, ResourceLocation> animation) {
             this.animation = animation;
             return this;
+        }
+
+        public Builder setAnimation(ResourceLocation animation) {
+            return setAnimation(creeper -> animation);
         }
 
         public Builder setMelee(int melee) {
@@ -167,38 +209,76 @@ public record CreeperType(
             return this;
         }
 
-        public Builder setShearable(boolean shearable) {
+        public Builder setShearable(Supplier<ItemStack> shearable) {
             this.shearable = shearable;
             return this;
         }
 
+        public Builder setDeathSound(Function<BaseCreeper, SoundEvent> deathSound) {
+            this.deathSound = deathSound;
+            return this;
+        }
+
         public Builder setDeathSounds(Supplier<SoundEvent> sound) {
-            this.deathSound = sound;
+            return setDeathSound(creeper -> sound.get());
+        }
+
+        public Builder setExplosionSound(Function<BaseCreeper, SoundEvent> explosionSound) {
+            this.explosionSound = explosionSound;
             return this;
         }
 
         public Builder setExplosionSounds(Supplier<SoundEvent> sound) {
-            this.explosionSound = sound;
+            return setExplosionSound(creeper -> sound.get());
+        }
+
+        public Builder setHitSound(Function<BaseCreeper, SoundEvent> hitSound) {
+            this.hitSound = hitSound;
             return this;
         }
 
         public Builder setHitSounds(Supplier<SoundEvent> sound) {
-            this.hitSound = sound;
+            return setHitSound(creeper -> sound.get());
+        }
+
+        public Builder setHurtSound(Function<BaseCreeper, SoundEvent> hurtSound) {
+            this.hurtSound = hurtSound;
             return this;
         }
 
         public Builder setHurtSounds(Supplier<SoundEvent> sound) {
-            this.hurtSound = sound;
+            return setHurtSound(creeper -> sound.get());
+        }
+
+        public Builder setPrimeSound(Function<BaseCreeper, SoundEvent> primeSound) {
+            this.primeSound = primeSound;
             return this;
         }
 
         public Builder setPrimeSounds(Supplier<SoundEvent> sound) {
-            this.primeSound = sound;
+            return setPrimeSound(creeper -> sound.get());
+        }
+
+        public Builder setSwimSound(Function<BaseCreeper, SoundEvent> swimSound) {
+            this.swimSound = swimSound;
             return this;
         }
 
+        public Builder setSwimSounds(Supplier<SoundEvent> sound) {
+            return setSwimSound(creeper -> sound.get());
+        }
+
+        public Builder setFlopSound(Function<BaseCreeper, SoundEvent> flopSound) {
+            this.flopSound = flopSound;
+            return this;
+        }
+
+        public Builder setFlopSounds(Supplier<SoundEvent> sound) {
+            return setFlopSound(creeper -> sound.get());
+        }
+
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound, swimSound, flopSound);
         }
     }
 

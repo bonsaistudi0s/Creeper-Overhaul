@@ -5,9 +5,9 @@ import java.util.Calendar;
 import java.util.function.BooleanSupplier;
 
 public enum Events {
-    CHRISTMAS(() -> matchMonth(Calendar.DECEMBER) && matchDays(24, 26)),
-    HALLOWEEN(() -> matchMonth(Calendar.OCTOBER) && matchDays(29, 31)),
-    ST_PATRICKS_DAY(() -> matchMonth(Calendar.MARCH) && matchDays(16, 18)),
+    CHRISTMAS(() -> matchMonth(Calendar.DECEMBER) && matchDays(20, 31)),
+    HALLOWEEN(() -> matchMonth(Calendar.OCTOBER) && matchDays(25, 31)),
+    ST_PATRICKS_DAY(() -> matchMonth(Calendar.MARCH) && matchDays(15, 19)),
     NONE(() -> false);
 
     private final BooleanSupplier checker;

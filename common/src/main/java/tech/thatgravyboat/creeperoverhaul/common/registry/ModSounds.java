@@ -31,6 +31,12 @@ public class ModSounds {
     public static final Supplier<SoundEvent> WOOD_HURT = registerSound("entity.wood.creeper.hurt");
     public static final Supplier<SoundEvent> WOOD_PRIME = registerSound("entity.wood.creeper.prime");
 
+    public static final Supplier<SoundEvent> OCEAN_DEATH = registerSound("entity.ocean.creeper.death");
+    public static final Supplier<SoundEvent> OCEAN_HURT_INFLATED = registerSound("entity.ocean.creeper.hurt_inflated");
+    public static final Supplier<SoundEvent> OCEAN_HURT_DEFLATED = registerSound("entity.ocean.creeper.hurt_deflated");
+    public static final Supplier<SoundEvent> OCEAN_INFLATE = registerSound("entity.ocean.creeper.inflate");
+    public static final Supplier<SoundEvent> OCEAN_DEFLATE = registerSound("entity.ocean.creeper.deflate");
+
     public static void init() {
         // init class
     }

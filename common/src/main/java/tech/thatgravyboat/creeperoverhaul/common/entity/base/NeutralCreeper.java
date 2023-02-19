@@ -8,12 +8,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
 
 import java.util.UUID;
 
@@ -51,6 +53,14 @@ public class NeutralCreeper extends BaseCreeper implements NeutralMob {
     @Override
     protected void registerAttackGoals() {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, this::isAngryAt));
+    }
+
+    @Override
+    public boolean canAttack(@NotNull LivingEntity entity) {
+        if (!PluginRegistry.getInstance().canAttack(this, entity)) {
+            return false;
+        }
+        return super.canAttack(entity);
     }
 
     @Override

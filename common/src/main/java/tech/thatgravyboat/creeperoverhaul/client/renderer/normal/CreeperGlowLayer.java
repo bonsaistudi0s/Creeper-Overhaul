@@ -25,8 +25,8 @@ public class CreeperGlowLayer<E extends BaseCreeper> extends GeoLayerRenderer<E>
 
             CreeperType type = creeper.type;
 
-            GeoModel normalModel = this.getEntityModel().getModel(type.model());
-            VertexConsumer glowConsumer = buffer.getBuffer(RenderTypes.getTransparentEyes(type.glowingTexture()));
+            GeoModel normalModel = this.getEntityModel().getModel(type.model().apply(creeper));
+            VertexConsumer glowConsumer = buffer.getBuffer(RenderTypes.getTransparentEyes(type.glowingTexture().apply(creeper)));
 
             getRenderer().render(normalModel, creeper, partialTicks,
                     null, stack, null, glowConsumer,

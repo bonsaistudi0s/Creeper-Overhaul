@@ -1,14 +1,11 @@
 package tech.thatgravyboat.creeperoverhaul.common.entity.goals;
 
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
-
-import java.util.function.Supplier;
 
 public class CreeperMeleeAttackGoal extends MeleeAttackGoal {
 
@@ -24,7 +21,7 @@ public class CreeperMeleeAttackGoal extends MeleeAttackGoal {
         double d0 = this.getAttackReachSqr(enemy);
         if (pDistToEnemySqr <= d0 && this.isTimeToAttack()) {
             this.resetAttackCooldown();
-            this.creeper.type.getHitSound().ifPresent(s -> this.creeper.level.playSound(null, this.creeper, s, this.creeper.getSoundSource(), 0.5F, 1.0F));
+            this.creeper.type.getHitSound(this.creeper).ifPresent(s -> this.creeper.level.playSound(null, this.creeper, s, this.creeper.getSoundSource(), 0.5F, 1.0F));
             this.mob.doHurtTarget(enemy);
         } else if (pDistToEnemySqr <= d0) {
             creeper.setAttacking(true);

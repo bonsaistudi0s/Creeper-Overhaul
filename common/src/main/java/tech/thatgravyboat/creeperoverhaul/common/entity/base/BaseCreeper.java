@@ -40,14 +40,16 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.Animation;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
+import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperAvoidEntitiesGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperMeleeAttackGoal;
 import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperSwellGoal;
-import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
 import java.util.Collection;
@@ -58,7 +60,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     private static final EntityDataAccessor<Boolean> DATA_IS_ATTACKING = SynchedEntityData.defineId(BaseCreeper.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_IS_SHEARED = SynchedEntityData.defineId(BaseCreeper.class, EntityDataSerializers.BOOLEAN);
 
-    private final AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = GeckoLibUtil.createFactory(this);
 
     private int oldSwell;
     private int swell;
@@ -88,11 +90,9 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     //region Goals
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new CreeperSwellGoal(this));
         this.goalSelector.addGoal(3, new CreeperAvoidEntitiesGoal(this, 6.0F, 1.0, 1.2));
-        this.goalSelector.addGoal(4, new CreeperMeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
+        registerMovementGoals();
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         registerAttackGoals();
@@ -100,7 +100,15 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     }
 
     protected void registerAttackGoals() {
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, entity ->
+                PluginRegistry.getInstance().canAttack(this, entity)
+        ));
+        this.goalSelector.addGoal(4, new CreeperMeleeAttackGoal(this, 1.0, false));
+    }
+
+    protected void registerMovementGoals() {
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8));
     }
     //endregion
 
@@ -110,6 +118,10 @@ public class BaseCreeper extends Creeper implements IAnimatable {
         super.defineSynchedData();
         this.getEntityData().define(DATA_IS_ATTACKING, false);
         this.getEntityData().define(DATA_IS_SHEARED, false);
+    }
+
+    public boolean isAttacking() {
+        return this.getEntityData().get(DATA_IS_ATTACKING);
     }
 
     public void setAttacking(boolean attacking) {
@@ -163,7 +175,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
 
             int i = this.getSwellDir();
             if (i > 0 && this.swell == 0) {
-                this.playSound(type.primeSound().get(), 1.0F, 0.5F);
+                this.playSound(type.getPrimeSound(this).orElse(SoundEvents.CREEPER_PRIMED), 1.0F, 0.5F);
                 this.gameEvent(GameEvent.PRIME_FUSE);
             }
 
@@ -187,7 +199,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
             this.dead = true;
             Explosion explosion = this.level.explode(this, this.getX(), this.getY(), this.getZ(), 3f * (this.isPowered() ? 2.0f : 1.0f), interaction);
 
-            type.getExplosionSound().ifPresent(s -> this.level.playSound(null, this, s,
+            type.getExplosionSound(this).ifPresent(s -> this.level.playSound(null, this, s,
                     SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F));
 
             this.discard();
@@ -237,6 +249,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
         }
     }
 
+    @Override
     public float getSwelling(float f) {
         return Mth.lerp(f, (float)this.oldSwell, (float)this.swell) / (this.maxSwell - 2f);
     }
@@ -251,7 +264,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     @Override
     protected InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (this.type.melee() == 0 && PlatformUtils.isFlintAndSteel(stack)) {
+        if (canSwell() && PlatformUtils.isFlintAndSteel(stack)) {
             this.level.playSound(player, this.blockPosition(), SoundEvents.FLINTANDSTEEL_USE, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
             if (!this.level.isClientSide()) {
                 ignite();
@@ -259,12 +272,12 @@ public class BaseCreeper extends Creeper implements IAnimatable {
             }
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
-        if (this.type.shearable() && !isSheared() && PlatformUtils.isShears(stack)) {
+        if (this.type.isShearable() && !isSheared() && PlatformUtils.isShears(stack)) {
             this.level.playSound(player, this.blockPosition(), SoundEvents.SNOW_GOLEM_SHEAR, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
             if (!this.level.isClientSide()) {
                 this.entityData.set(DATA_IS_SHEARED, true);
                 stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
-                this.spawnAtLocation(new ItemStack(ModItems.TINY_CACTUS.get()), 1.7F);
+                this.spawnAtLocation(this.type.shearDrop().get(), 1.7F);
             }
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         }
@@ -284,22 +297,22 @@ public class BaseCreeper extends Creeper implements IAnimatable {
 
     @Override
     public boolean doHurtTarget(@NotNull Entity entity) {
-        if (this.type.melee() == 0) return true;
-        double f = this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-        double g = this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+        if (canSwell()) return true;
+        double damage = this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        double knockback = this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
         if (entity instanceof LivingEntity livingEntity) {
-            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), livingEntity.getMobType());
-            g += EnchantmentHelper.getKnockbackBonus(this);
+            damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), livingEntity.getMobType());
+            knockback += EnchantmentHelper.getKnockbackBonus(this);
         }
 
-        int i = EnchantmentHelper.getFireAspect(this);
-        if (i > 0) {
-            entity.setSecondsOnFire(i * 4);
+        int fireAspect = EnchantmentHelper.getFireAspect(this);
+        if (fireAspect > 0) {
+            entity.setSecondsOnFire(fireAspect * 4);
         }
 
-        if (entity.hurt(DamageSource.mobAttack(this), (float) f)) {
-            if (g > 0.0 && entity instanceof LivingEntity living) {
-                living.knockback(g * 0.5F, Mth.sin(this.getYRot() * 0.017453292F), -Mth.cos(this.getYRot() * 0.017453292F));
+        if (entity.hurt(DamageSource.mobAttack(this), (float) damage)) {
+            if (knockback > 0.0 && entity instanceof LivingEntity living) {
+                living.knockback(knockback * 0.5F, Mth.sin(this.getYRot() * 0.017453292F), -Mth.cos(this.getYRot() * 0.017453292F));
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
             }
 
@@ -326,31 +339,36 @@ public class BaseCreeper extends Creeper implements IAnimatable {
 
     @Override
     protected SoundEvent getHurtSound(@NotNull DamageSource source) {
-        return type.hurtSound().get();
+        return type.getHurtSound(this).orElseGet(() -> super.getHurtSound(source));
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return type.deathSound().get();
+        return type.getDeathSound(this).orElseGet(super::getDeathSound);
+    }
+
+    @Override
+    protected SoundEvent getSwimSound() {
+        return type.getSwimSound(this).orElseGet(super::getSwimSound);
     }
 
     //endregion
 
     //region Animation
-    private <E extends IAnimatable> PlayState idle(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.idle", true));
+    protected <E extends IAnimatable> PlayState idle(AnimationEvent<E> event) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.idle", ILoopType.EDefaultLoopTypes.LOOP));
         return PlayState.CONTINUE;
     }
 
-    private <E extends IAnimatable> PlayState action(AnimationEvent<E> event) {
+    protected <E extends IAnimatable> PlayState action(AnimationEvent<E> event) {
         Animation animation = event.getController().getCurrentAnimation();
-        if (entityData.get(DATA_IS_ATTACKING)) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.attack", false));
+        if (isAttacking()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.attack", ILoopType.EDefaultLoopTypes.PLAY_ONCE));
             return PlayState.CONTINUE;
         } else if (animation != null && animation.animationName.equals("animation.creeper.attack") && event.getController().getAnimationState().equals(AnimationState.Running)) {
             return PlayState.CONTINUE;
         } else if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.walk", true));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.creeper.walk", ILoopType.EDefaultLoopTypes.LOOP));
             return PlayState.CONTINUE;
         }
         event.getController().markNeedsReload();

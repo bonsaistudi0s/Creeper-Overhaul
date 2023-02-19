@@ -57,6 +57,9 @@ public class ModItems {
     public static final Supplier<SpawnEggItem> SNOWY_SPAWN_EGG = registerSpawnEgg("snowy_creeper_spawn_egg",
             ModEntities.SNOWY_CREEPER, 0xBECDD8, 0xE8F8F9, getModProperties());
 
+    public static final Supplier<SpawnEggItem> OCEAN_SPAWN_EGG = registerSpawnEgg("ocean_creeper_spawn_egg",
+            ModEntities.OCEAN_CREEPER, 0x84D89E, 0xEFA662, getModProperties());
+
     public static final Supplier<Item> TINY_CACTUS = registerItem("tiny_cactus", () -> createCactus(ModBlocks.TINY_CACTUS.get(), getModProperties()));
 
     public static void init() {
