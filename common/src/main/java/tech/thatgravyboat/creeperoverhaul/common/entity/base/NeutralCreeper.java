@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
+import tech.thatgravyboat.creeperoverhaul.common.entity.goals.CreeperMeleeAttackGoal;
 
 import java.util.UUID;
 
@@ -52,6 +53,7 @@ public class NeutralCreeper extends BaseCreeper implements NeutralMob {
 
     @Override
     protected void registerAttackGoals() {
+        this.goalSelector.addGoal(4, new CreeperMeleeAttackGoal(this, 1.0, false));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, this::isAngryAt));
     }
 

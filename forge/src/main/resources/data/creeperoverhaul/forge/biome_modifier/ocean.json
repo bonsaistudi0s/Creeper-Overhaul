@@ -8,7 +8,7 @@
   "spawners" : {
     "type": "creeperoverhaul:ocean_creeper",
     "weight": 2,
-    "minCount": 2,
-    "maxCount": 2
+    "minCount": 0,
+    "maxCount": 1
   }
 }

@@ -13,7 +13,6 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -68,7 +67,7 @@ public class CreepersFabric implements ModInitializer {
         addCreeper(tag(BiomeTags.HAS_MINESHAFT_MESA), ModEntities.BADLANDS_CREEPER);
         addCreeper(tag(BiomeTags.HAS_MINESHAFT_MESA), ModEntities.CAVE_CREEPER);
 
-        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.MUSHROOM_FIELDS), MobCategory.CREATURE, ModEntities.MUSHROOM_CREEPER.get(), 10, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.MUSHROOM_FIELDS), ModEntities.MUSHROOM_CREEPER.get().getCategory(), ModEntities.MUSHROOM_CREEPER.get(), 10, 1, 2);
 
         addCreeper(tag(BiomeTags.IS_TAIGA), ModEntities.SPRUCE_CREEPER);
         addCreeper(tag(BiomeTags.IS_TAIGA), ModEntities.CAVE_CREEPER);
@@ -89,7 +88,7 @@ public class CreepersFabric implements ModInitializer {
         addCreeper(BiomeSelectors.includeByKey(Biomes.DARK_FOREST), ModEntities.DARK_OAK_CREEPER);
         addCreeper(BiomeSelectors.includeByKey(Biomes.DARK_FOREST), ModEntities.CAVE_CREEPER);
 
-        addCreeper(BiomeSelectors.includeByKey(Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN), ModEntities.OCEAN_CREEPER, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.includeByKey(Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN), ModEntities.OCEAN_CREEPER.get().getCategory(), ModEntities.OCEAN_CREEPER.get(), 2, 1, 1);
         addCreeper(BiomeSelectors.includeByKey(Biomes.LUKEWARM_OCEAN, Biomes.WARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN), ModEntities.CAVE_CREEPER);
     }
 
