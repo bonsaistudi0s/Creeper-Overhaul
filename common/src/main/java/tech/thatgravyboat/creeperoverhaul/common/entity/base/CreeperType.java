@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -43,7 +44,9 @@ public record CreeperType(
         Function<BaseCreeper, SoundEvent> hurtSound,
         Function<BaseCreeper, SoundEvent> primeSound,
         Function<BaseCreeper, SoundEvent> swimSound,
-        Function<BaseCreeper, SoundEvent> flopSound
+        Function<BaseCreeper, SoundEvent> flopSound,
+
+        BooleanSupplier canSpawn
 ) {
 
     public Optional<SoundEvent> getDeathSound(BaseCreeper creeper) {
@@ -105,6 +108,8 @@ public record CreeperType(
         private Function<BaseCreeper, SoundEvent> primeSound = creeper -> SoundEvents.CREEPER_PRIMED;
         private Function<BaseCreeper, SoundEvent> swimSound = creeper -> SoundEvents.GENERIC_SWIM;
         private Function<BaseCreeper, SoundEvent> flopSound = creeper -> SoundEvents.GUARDIAN_FLOP;
+
+        private BooleanSupplier canSpawn = () -> true;
 
         public Builder setTexture(ResourceLocation texture) {
             this.texture = creeper -> texture;
@@ -277,8 +282,13 @@ public record CreeperType(
             return setFlopSound(creeper -> sound.get());
         }
 
+        public Builder setCanSpawn(BooleanSupplier canSpawn) {
+            this.canSpawn = canSpawn;
+            return this;
+        }
+
         public CreeperType build() {
-            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound, swimSound, flopSound);
+            return new CreeperType(texture, glowingTexture, chargedTexture, model, shearedModel, animation, melee, replacer, afraidOf, inflictingPotions, potionsWhenDying, attackingEntities, immunities, attributes, shearable, deathSound, explosionSound, hitSound, hurtSound, primeSound, swimSound, flopSound, canSpawn);
         }
     }
 

@@ -9,9 +9,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -19,11 +17,13 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.api.CreeperPlugin;
 import tech.thatgravyboat.creeperoverhaul.api.PluginRegistry;
-import tech.thatgravyboat.creeperoverhaul.client.forge.ClientConfig;
 import tech.thatgravyboat.creeperoverhaul.client.forge.CreepersForgeClient;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModSpawns;
-import tech.thatgravyboat.creeperoverhaul.common.registry.forge.*;
+import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModBlocksImpl;
+import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModEntitiesImpl;
+import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModItemsImpl;
+import tech.thatgravyboat.creeperoverhaul.common.registry.forge.ModSoundsImpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +41,6 @@ public class CreepersForge {
         ModBlocksImpl.BLOCKS.register(bus);
         ModEntitiesImpl.ENTITIES.register(bus);
         ModSoundsImpl.SOUNDS.register(bus);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_CONFIG);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_CONFIG);
 
         bus.addListener(this::onAttributes);
         bus.addListener(this::onComplete);

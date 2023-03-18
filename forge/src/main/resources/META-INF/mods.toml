@@ -18,6 +18,13 @@ license="All rights reserved"
     side="BOTH"
 
 [[dependencies.creeperoverhaul]]
+    modId="resourcefulconfig"
+    mandatory=true
+    versionRange="[1.0.20,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.creeperoverhaul]]
     modId="forge"
     mandatory=true
     versionRange="[41,)"

@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.GameRules;
-import tech.thatgravyboat.creeperoverhaul.fabric.Config;
+import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.registry.fabric.FabricAttributes;
 
@@ -25,7 +25,7 @@ public class PlatformUtilsImpl {
     }
 
     public static Explosion.BlockInteraction getInteractionForCreeper(BaseCreeper creeper) {
-        boolean destroyBlocks = creeper.level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get() && Config.destroyBlocks;
+        boolean destroyBlocks = creeper.level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get() && CreepersConfig.destroyBlocks;
         return destroyBlocks ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.NONE;
     }
 
@@ -39,10 +39,6 @@ public class PlatformUtilsImpl {
 
     public static boolean isFlintAndSteel(ItemStack stack) {
         return stack.getItem() instanceof FlintAndSteelItem;
-    }
-
-    public static boolean isVanillaReplaced() {
-        return Config.replaceDefaultCreeper;
     }
 
     public static Attribute getModAttribute(String name) {

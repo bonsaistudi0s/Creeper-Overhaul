@@ -20,6 +20,9 @@
     ],
     "client": [
       "tech.thatgravyboat.creeperoverhaul.fabric.CreepersClientFabric"
+    ],
+    "modmenu": [
+      "tech.thatgravyboat.creeperoverhaul.fabric.ModMenuConfig"
     ]
   },
   "mixins": [
@@ -31,6 +34,7 @@
     "fabric": "*",
     "minecraft": "1.19.x",
     "java": ">=17",
-    "geckolib3": "*"
+    "geckolib3": "*",
+    "resourcefulconfig": ">=1.0.20"
   }
 }

@@ -31,11 +31,6 @@ public class CreepersFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        try {
-            Config.loadConfig();
-        } catch (Exception e) {
-            System.out.println("[Creeper Overhaul] Failed to load Config.");
-        }
         Creepers.init();
         FabricAttributes.register();
         Map<EntityType<? extends LivingEntity>, AttributeSupplier.Builder> attributes = new HashMap<>();

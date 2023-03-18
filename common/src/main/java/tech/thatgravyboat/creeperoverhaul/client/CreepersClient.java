@@ -11,12 +11,12 @@ import software.bernie.geckolib3.renderers.geo.GeoReplacedEntityRenderer;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperModel;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.normal.CreeperRenderer;
 import tech.thatgravyboat.creeperoverhaul.client.renderer.replaced.ReplacedCreeperRenderer;
+import tech.thatgravyboat.creeperoverhaul.common.config.ClientConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.BaseCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
-import tech.thatgravyboat.creeperoverhaul.common.utils.PlatformUtils;
 
 import java.util.function.Supplier;
 
@@ -38,7 +38,7 @@ public class CreepersClient {
         registerRenderer(ModEntities.BEACH_CREEPER, createRenderer(CreeperTypes.BEACH));
         registerRenderer(ModEntities.SNOWY_CREEPER, createRenderer(CreeperTypes.SNOWY));
         registerRenderer(ModEntities.OCEAN_CREEPER, createRenderer(CreeperTypes.OCEAN));
-        if (PlatformUtils.isVanillaReplaced()) {
+        if (ClientConfig.replaceDefaultCreeper) {
             registerRenderer(EntityType.CREEPER, ReplacedCreeperRenderer::new);
         }
         registerBlockRenderType(ModBlocks.TINY_CACTUS, RenderTypes.cutout());

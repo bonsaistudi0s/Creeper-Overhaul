@@ -25,6 +25,10 @@ dependencies {
 
     modImplementation "software.bernie.geckolib:${rootProject.gecko_lib_fabric_version}"
 
+    modApi "com.terraformersmc:modmenu:$rootProject.modmenu_version"
+
+    modApi "com.teamresourceful.resourcefulconfig:resourcefulconfig-fabric-$rootProject.minecraft_version:$rootProject.resourcefulconfig_version"
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }

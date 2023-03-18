@@ -11,6 +11,7 @@ import net.minecraft.world.entity.monster.Stray;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
+import tech.thatgravyboat.creeperoverhaul.common.config.SpawningConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
 import tech.thatgravyboat.creeperoverhaul.common.entity.custom.PufferfishCreeper;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModItems;
@@ -32,6 +33,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.PLANT_EXPLOSION)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowJungleCreeperSpawning)
             .build();
 
     public static final CreeperType BAMBOO = new CreeperType.Builder()
@@ -50,6 +52,7 @@ public class CreeperTypes {
             .setHitSounds(ModSounds.PLANT_HIT)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowBambooCreeperSpawning)
             .build();
 
     public static final CreeperType DESERT = new CreeperType.Builder()
@@ -68,6 +71,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.SAND_EXPLOSION)
             .setHurtSounds(ModSounds.SAND_HURT)
             .setPrimeSounds(ModSounds.SAND_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowDesertCreeperSpawning)
             .build();
 
     public static final CreeperType BADLANDS = new CreeperType.Builder()
@@ -87,6 +91,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.SAND_EXPLOSION)
             .setHurtSounds(ModSounds.SAND_HURT)
             .setPrimeSounds(ModSounds.SAND_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowBadlandsCreeperSpawning)
             .build();
 
     public static final CreeperType HILLS = new CreeperType.Builder()
@@ -101,6 +106,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowHillsCreeperSpawning)
             .build();
 
     public static final CreeperType SAVANNAH = new CreeperType.Builder()
@@ -118,6 +124,7 @@ public class CreeperTypes {
             .setHurtSounds(ModSounds.WOOD_HURT)
             .setHitSounds(ModSounds.WOOD_HIT)
             .setPrimeSounds(ModSounds.WOOD_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowSavannahCreeperSpawning)
             .build();
 
     public static final CreeperType MUSHROOM = new CreeperType.Builder()
@@ -132,6 +139,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.PLANT_EXPLOSION)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowMushroomCreeperSpawning)
             .build();
 
     public static final CreeperType SWAMP = new CreeperType.Builder()
@@ -147,6 +155,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.PLANT_EXPLOSION)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowSwampCreeperSpawning)
             .build();
 
     public static final CreeperType DRIPSTONE = new CreeperType.Builder()
@@ -162,6 +171,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowDripstoneCreeperSpawning)
             .build();
 
     public static final CreeperType CAVE = new CreeperType.Builder()
@@ -179,6 +189,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowCaveCreeperSpawning)
             .build();
 
     public static final CreeperType DARK_OAK = new CreeperType.Builder()
@@ -194,6 +205,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.WOOD_EXPLOSION)
             .setHurtSounds(ModSounds.WOOD_HURT)
             .setPrimeSounds(ModSounds.WOOD_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowDarkOakCreeperSpawning)
             .build();
 
     public static final CreeperType SPRUCE = new CreeperType.Builder()
@@ -209,6 +221,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowSpruceCreeperSpawning)
             .build();
 
     public static final CreeperType BEACH = new CreeperType.Builder()
@@ -226,6 +239,7 @@ public class CreeperTypes {
             .setExplosionSounds(ModSounds.SAND_EXPLOSION)
             .setHurtSounds(ModSounds.SAND_HURT)
             .setPrimeSounds(ModSounds.SAND_PRIME)
+            .setCanSpawn(() -> SpawningConfig.allowBeachCreeperSpawning)
             .build();
 
     public static final CreeperType SNOWY = new CreeperType.Builder()
@@ -237,6 +251,7 @@ public class CreeperTypes {
             .setMelee(5)
             .addAttribute(Attributes.ATTACK_DAMAGE, 4)
             .addAttackingEntities(Stray.class)
+            .setCanSpawn(() -> SpawningConfig.allowSnowyCreeperSpawning)
             .build();
 
     public static final CreeperType OCEAN = new CreeperType.Builder()
@@ -270,6 +285,7 @@ public class CreeperTypes {
                 return ModSounds.OCEAN_HURT_DEFLATED.get();
             })
             .setFlopSounds(() -> SoundEvents.PUFFER_FISH_FLOP)
+            .setCanSpawn(() -> SpawningConfig.allowOceanCreeperSpawning)
             .build();
 
     private static ResourceLocation modLoc(String string) {

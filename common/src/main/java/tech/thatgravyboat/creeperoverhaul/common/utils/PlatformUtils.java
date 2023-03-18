@@ -46,12 +46,6 @@ public class PlatformUtils {
         throw new AssertionError();
     }
 
-    @Contract(pure = true)
-    @ExpectPlatform
-    public static boolean isVanillaReplaced() {
-        throw new AssertionError();
-    }
-
     @Nullable
     @ExpectPlatform
     public static Attribute getModAttribute(String name) {

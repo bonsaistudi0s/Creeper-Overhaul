@@ -31,6 +31,8 @@ allprojects {
 
     repositories {
         maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+        maven { url = "https://nexus.resourcefulbees.com/repository/maven-public/" }
+        maven { url "https://maven.terraformersmc.com" }
     }
 
     tasks.withType(JavaCompile) {

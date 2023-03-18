@@ -255,6 +255,10 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     }
 
     public boolean canSwell() {
+        return isExplodingCreeper();
+    }
+
+    public boolean isExplodingCreeper() {
         return this.type.melee() == 0;
     }
     //endregion
@@ -262,9 +266,9 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     //region Interactions
 
     @Override
-    protected InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+    protected @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (canSwell() && PlatformUtils.isFlintAndSteel(stack)) {
+        if (isExplodingCreeper() && PlatformUtils.isFlintAndSteel(stack)) {
             this.level.playSound(player, this.blockPosition(), SoundEvents.FLINTANDSTEEL_USE, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
             if (!this.level.isClientSide()) {
                 ignite();
@@ -348,7 +352,7 @@ public class BaseCreeper extends Creeper implements IAnimatable {
     }
 
     @Override
-    protected SoundEvent getSwimSound() {
+    protected @NotNull SoundEvent getSwimSound() {
         return type.getSwimSound(this).orElseGet(super::getSwimSound);
     }
 

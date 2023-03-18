@@ -1,10 +1,12 @@
 package tech.thatgravyboat.creeperoverhaul;
 
+import com.teamresourceful.resourcefulconfig.common.config.Configurator;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
+import tech.thatgravyboat.creeperoverhaul.common.config.CreepersConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.CreeperTypes;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModBlocks;
 import tech.thatgravyboat.creeperoverhaul.common.registry.ModEntities;
@@ -15,10 +17,15 @@ import tech.thatgravyboat.creeperoverhaul.common.utils.Events;
 import java.util.Map;
 
 public class Creepers {
+
+    public static final Configurator CONFIGURATOR = new Configurator(true);
+
     public static final String MODID = "creeperoverhaul";
     public static final Events EVENT = Events.getCurrentEvent();
 
     public static void init() {
+        CONFIGURATOR.registerConfig(CreepersConfig.class);
+
         GeckoLib.initialize();
         GeckoLibMod.DISABLE_IN_DEV = true;
         ModBlocks.init();
