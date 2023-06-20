@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
@@ -111,7 +112,7 @@ public class CreepersFabric implements ModInitializer {
     }
 
     private static Predicate<BiomeSelectionContext> isSnowing() {
-        return ctx -> ctx.getBiome().getPrecipitation().equals(Biome.Precipitation.SNOW);
+        return ctx -> ctx.getBiome().getBaseTemperature() < 0.15f;
     }
 
     private <E extends BaseCreeper> void addCreeper(Predicate<BiomeSelectionContext> selectors, Supplier<EntityType<E>> entityType) {
@@ -123,7 +124,7 @@ public class CreepersFabric implements ModInitializer {
     }
 
     private void removeCreeper(Predicate<BiomeSelectionContext> biomeSelector) {
-        ResourceLocation id = Registry.ENTITY_TYPE.getKey(EntityType.CREEPER);
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.CREEPER);
 
         BiomeModifications.create(id).add(ModificationPhase.REMOVALS, biomeSelector,
                 context -> context.getSpawnSettings().removeSpawnsOfEntityType(EntityType.CREEPER));

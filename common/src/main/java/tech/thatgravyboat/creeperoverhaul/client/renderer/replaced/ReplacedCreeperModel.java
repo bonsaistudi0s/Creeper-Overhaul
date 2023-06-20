@@ -1,11 +1,13 @@
 package tech.thatgravyboat.creeperoverhaul.client.renderer.replaced;
 
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.geckolib.GeckoLib;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
+import software.bernie.geckolib.model.GeoModel;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.entity.ReplacedCreeper;
 
-public class ReplacedCreeperModel<E extends ReplacedCreeper> extends AnimatedGeoModel<E> {
+public class ReplacedCreeperModel<E extends ReplacedCreeper> extends GeoModel<E> {
 
     private static final ResourceLocation MODEL = new ResourceLocation(Creepers.MODID, "geo/plains.geo.json");
     private static final ResourceLocation ANIMATION = new ResourceLocation(Creepers.MODID, "animations/creeper.animation.json");
