@@ -256,7 +256,7 @@ public class CreeperTypes {
             //.addImmunity(DamageSource.DROWN)
             .addAttribute(Attributes.MAX_HEALTH, 15)
             .addAttribute("swim_speed", 2)
-            .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.SAND.defaultBlockState() : null)
+            .addReplacer(state -> state.is(Blocks.SAND) || state.is(Blocks.GRAVEL), random -> random.nextInt(3) == 0 ? Blocks.WATER.defaultBlockState() : null)
             .setDeathSounds(ModSounds.SAND_DEATH)
             .setExplosionSounds(ModSounds.SAND_EXPLOSION)
             .setHurtSounds(ModSounds.SAND_HURT)
