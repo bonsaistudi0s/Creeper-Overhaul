@@ -7,8 +7,10 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Stray;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
 import tech.thatgravyboat.creeperoverhaul.Creepers;
 import tech.thatgravyboat.creeperoverhaul.common.config.SpawningConfig;
 import tech.thatgravyboat.creeperoverhaul.common.entity.base.CreeperType;
@@ -28,12 +30,13 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.MELON.defaultBlockState() : null)
+            .addReplacer(state -> state.is(Blocks.GRASS) || state.is(Blocks.FERN), random -> random.nextInt(1) == 0 ? Blocks.MELON.defaultBlockState() : null)
             .setDeathSounds(ModSounds.PLANT_DEATH)
             .setExplosionSounds(ModSounds.PLANT_EXPLOSION)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowJungleCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType BAMBOO = new CreeperType.Builder()
@@ -46,13 +49,14 @@ public class CreeperTypes {
             .addAfraidOf(EntityType.OCELOT)
             .addAfraidOf(EntityType.PANDA)
             .addAttribute(Attributes.MAX_HEALTH, 15)
-            .addReplacer(state -> state.is(Blocks.GRASS) || state.is(Blocks.FERN), random -> random.nextInt(3) == 0 ? Blocks.BAMBOO.defaultBlockState() : null)
+            .addReplacer(state -> state.is(Blocks.GRASS) || state.is(Blocks.FERN), random -> random.nextInt(1) == 0 ? Blocks.BAMBOO.defaultBlockState() : null)
             .setDeathSounds(ModSounds.PLANT_DEATH)
             .setExplosionSounds(ModSounds.PLANT_EXPLOSION)
             .setHitSounds(ModSounds.PLANT_HIT)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowBambooCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType DESERT = new CreeperType.Builder()
@@ -66,13 +70,15 @@ public class CreeperTypes {
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
             //.addImmunity(DamageSources)
-            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-            .addReplacer(state -> state.is(Blocks.SAND) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.CHISELED_SANDSTONE.defaultBlockState() : null)
+            .addAttribute(Attributes.MAX_HEALTH, 30)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
+            .addReplacer(state -> state.is(Blocks.SAND) || state.is(Blocks.SANDSTONE), random -> random.nextInt(3) == 0 ? Blocks.CHISELED_SANDSTONE.defaultBlockState() : null)
             .setDeathSounds(ModSounds.SAND_DEATH)
             .setExplosionSounds(ModSounds.SAND_EXPLOSION)
             .setHurtSounds(ModSounds.SAND_HURT)
             .setPrimeSounds(ModSounds.SAND_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowDesertCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType BADLANDS = new CreeperType.Builder()
@@ -88,12 +94,13 @@ public class CreeperTypes {
             //.addImmunity(DamageSource.CACTUS)
             .addAttribute(Attributes.MAX_HEALTH, 30)
             .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
-            .addReplacer(state -> state.is(Blocks.SAND) || state.is(Blocks.RED_SAND), random -> random.nextInt(3) == 0 ? Blocks.CHISELED_RED_SANDSTONE.defaultBlockState() : null)
+            .addReplacer(state -> state.is(Blocks.RED_SANDSTONE) || state.is(Blocks.RED_SAND), random -> random.nextInt(3) == 0 ? Blocks.CHISELED_RED_SANDSTONE.defaultBlockState() : null)
             .setDeathSounds(ModSounds.SAND_DEATH)
             .setExplosionSounds(ModSounds.SAND_EXPLOSION)
             .setHurtSounds(ModSounds.SAND_HURT)
             .setPrimeSounds(ModSounds.SAND_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowBadlandsCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType HILLS = new CreeperType.Builder()
@@ -103,13 +110,14 @@ public class CreeperTypes {
             .setModel(modLoc("geo/hills.geo.json"))
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAttribute(Attributes.MAX_HEALTH, 30)
-            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-            .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.COBBLESTONE.defaultBlockState() : null)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
+            .addReplacer(state -> state.is(Blocks.GRASS) || state.is(Blocks.FERN), random -> random.nextInt(1) == 0 ? Blocks.PUMPKIN.defaultBlockState() : null)
             .setDeathSounds(ModSounds.STONE_DEATH)
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowHillsCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType SAVANNAH = new CreeperType.Builder()
@@ -120,8 +128,8 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/savannah.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .addAttribute(Attributes.MAX_HEALTH, 25)
-            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
+            .addAttribute(Attributes.MAX_HEALTH, 30)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
             .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.COARSE_DIRT.defaultBlockState() : null)
             .setDeathSounds(ModSounds.WOOD_DEATH)
             .setExplosionSounds(ModSounds.WOOD_EXPLOSION)
@@ -129,6 +137,7 @@ public class CreeperTypes {
             .setHitSounds(ModSounds.WOOD_HIT)
             .setPrimeSounds(ModSounds.WOOD_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowSavannahCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType MUSHROOM = new CreeperType.Builder()
@@ -137,13 +146,13 @@ public class CreeperTypes {
             .setChargedTexture(modLoc("textures/entity/armor/creeper_armor_4.png"))
             .setModel(modLoc("geo/mushroom.geo.json"))
             .setAnimation(modLoc("animations/creeper.animation.json"))
-            .addPotionsWhenDying(new MobEffectInstance(MobEffects.POISON, 100, 1))
             .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.MYCELIUM.defaultBlockState() : null)
             .setDeathSounds(ModSounds.PLANT_DEATH)
             .setExplosionSounds(ModSounds.PLANT_EXPLOSION)
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowMushroomCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType SWAMP = new CreeperType.Builder()
@@ -161,6 +170,7 @@ public class CreeperTypes {
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowSwampCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType DRIPSTONE = new CreeperType.Builder()
@@ -171,13 +181,15 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .addAttribute(Attributes.MAX_HEALTH, 12)
+            .addAttribute(Attributes.MAX_HEALTH, 30)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
             .addReplacer(state -> state.is(Blocks.STONE) || state.is(Blocks.TUFF), random -> random.nextInt(3) == 0 ? Blocks.DRIPSTONE_BLOCK.defaultBlockState() : null)
             .setDeathSounds(ModSounds.STONE_DEATH)
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowDripstoneCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType CAVE = new CreeperType.Builder()
@@ -188,14 +200,15 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .addAttribute(Attributes.MAX_HEALTH, 25)
-            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.5)
-            .addReplacer(state -> state.is(Blocks.STONE), random -> random.nextInt(100) == 0 ? Blocks.COAL_ORE.defaultBlockState() : null)
+            .addAttribute(Attributes.MAX_HEALTH, 30)
+            .addAttribute(Attributes.KNOCKBACK_RESISTANCE, 1)
+            .addReplacer(state -> state.is(Blocks.STONE), random -> random.nextInt(3) == 0 ? Blocks.COBBLESTONE.defaultBlockState() : null)
             .setDeathSounds(ModSounds.STONE_DEATH)
             .setExplosionSounds(ModSounds.STONE_EXPLOSION)
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowCaveCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType DARK_OAK = new CreeperType.Builder()
@@ -206,13 +219,13 @@ public class CreeperTypes {
             .setAnimation(modLoc("animations/creeper.animation.json"))
             .addAfraidOf(EntityType.CAT)
             .addAfraidOf(EntityType.OCELOT)
-            .addInflictingPotion(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0))
-            .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.STONE.defaultBlockState() : null)
+            .addReplacer(state -> state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT), random -> random.nextInt(3) == 0 ? Blocks.MOSSY_COBBLESTONE.defaultBlockState() : null)
             .setDeathSounds(ModSounds.WOOD_DEATH)
             .setExplosionSounds(ModSounds.WOOD_EXPLOSION)
             .setHurtSounds(ModSounds.WOOD_HURT)
             .setPrimeSounds(ModSounds.WOOD_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowDarkOakCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType SPRUCE = new CreeperType.Builder()
@@ -229,6 +242,7 @@ public class CreeperTypes {
             .setHurtSounds(ModSounds.STONE_HURT)
             .setPrimeSounds(ModSounds.STONE_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowSpruceCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType BEACH = new CreeperType.Builder()
@@ -248,6 +262,7 @@ public class CreeperTypes {
             .setHurtSounds(ModSounds.SAND_HURT)
             .setPrimeSounds(ModSounds.SAND_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowBeachCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType SNOWY = new CreeperType.Builder()
@@ -264,6 +279,7 @@ public class CreeperTypes {
             .setHurtSounds(ModSounds.PLANT_HURT)
             .setPrimeSounds(ModSounds.PLANT_PRIME)
             .setCanSpawn(() -> SpawningConfig.allowSnowyCreeperSpawning)
+            .addAttackingEntities(Player.class)
             .build();
 
     public static final CreeperType OCEAN = new CreeperType.Builder()
