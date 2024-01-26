@@ -273,9 +273,9 @@ public class CreeperTypes {
             })
             .setAnimation(modLoc("animations/ocean.animation.json"))
             .addAttribute(Attributes.MAX_HEALTH, 16)
-            .addAttribute(Attributes.MOVEMENT_SPEED, 2)
+            .addAttribute(Attributes.MOVEMENT_SPEED, 1.7)
             .addAttribute("reach_distance", 3)
-            .addAttribute("swim_speed", 2)
+            .addAttribute("swim_speed", 1.7)
             .setDeathSounds(ModSounds.OCEAN_DEATH)
             .setHurtSound(creeper -> {
                 if (creeper instanceof PufferfishCreeper fish && fish.getPuffId() == 3) {
