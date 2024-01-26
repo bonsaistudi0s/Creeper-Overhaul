@@ -18,7 +18,6 @@ public class CreeperGlowLayer<E extends BaseCreeper> extends GeoRenderLayer<E> {
         super(renderer);
     }
 
-
     @Override
     public void render(PoseStack poseStack, E creeper, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         float f = creeper.getSwelling(partialTick);

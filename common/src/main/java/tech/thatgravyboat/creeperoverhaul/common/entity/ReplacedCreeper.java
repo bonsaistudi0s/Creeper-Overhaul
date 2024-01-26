@@ -17,11 +17,11 @@ public class ReplacedCreeper implements GeoReplacedEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllers.add(new AnimationController<>(this, "controller", 5, this::predicate));
     }
 
     private <P extends GeoAnimatable> PlayState predicate(AnimationState<P> event) {
-        if (!(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F)) {
+        if (event.isMoving()) {
             event.getController().setAnimation(AnimationConstants.WALK);
         } else {
             event.getController().setAnimation(AnimationConstants.IDLE);

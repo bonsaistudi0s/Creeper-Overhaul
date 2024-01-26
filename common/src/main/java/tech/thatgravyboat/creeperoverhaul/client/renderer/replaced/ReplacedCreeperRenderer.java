@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.monster.Creeper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.cache.object.GeoBone;
@@ -64,5 +65,11 @@ public class ReplacedCreeperRenderer extends GeoReplacedEntityRenderer<Creeper, 
     @Override
     public RenderType getRenderType(ReplacedCreeper animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
         return RenderType.entityTranslucent(texture);
+    }
+
+    @Override
+    public boolean shouldShowName(@NotNull Creeper entity) {
+        if (this.currentEntity == null) return false;
+        return super.shouldShowName(entity);
     }
 }
