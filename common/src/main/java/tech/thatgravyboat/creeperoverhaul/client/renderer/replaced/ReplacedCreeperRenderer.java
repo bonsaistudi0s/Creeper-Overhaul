@@ -21,7 +21,6 @@ public class ReplacedCreeperRenderer extends GeoReplacedEntityRenderer<Creeper, 
 
     public ReplacedCreeperRenderer(EntityRendererProvider.Context renderManager) {
         super(renderManager, new ReplacedCreeperModel<>(), new ReplacedCreeper());
-        //CreepersClient.registerReplacedEntity(ReplacedCreeper.class, this);
         addRenderLayer(new ReplacedCreeperGlowLayer(this));
         addRenderLayer(new ReplacedCreeperPowerLayer(this));
     }
