@@ -1,6 +1,5 @@
 {
   "itemGroup.creeperoverhaul.item_group": "Creeper Overhaul",
-
   "entity.creeperoverhaul.jungle_creeper": "Creeper de Jungla",
   "item.creeperoverhaul.jungle_creeper_spawn_egg": "Huevo de Creeper de Jungla",
   "entity.creeperoverhaul.bamboo_creeper": "Creeper de Bambú",
@@ -41,25 +40,21 @@
   "subtitles.creeperoverhaul.entity.wood.creeper.hurt": "Creeper herido",
   "subtitles.creeperoverhaul.entity.wood.creeper.prime": "Creeper sisea",
   "subtitles.creeperoverhaul.entity.wood.creeper.explosion": "Explosión de Creeper",
-  
   "subtitles.creeperoverhaul.entity.plant.creeper.hit": "Creeper golpeado",
   "subtitles.creeperoverhaul.entity.plant.creeper.death": "Creeper muere",
   "subtitles.creeperoverhaul.entity.plant.creeper.hurt": "Creeper herido",
   "subtitles.creeperoverhaul.entity.plant.creeper.prime": "Creeper sisea",
   "subtitles.creeperoverhaul.entity.plant.creeper.explosion": "Explosión de Creeper",
-  
   "subtitles.creeperoverhaul.entity.stone.creeper.hit": "Creeper golpeado",
   "subtitles.creeperoverhaul.entity.stone.creeper.death": "Creeper muere",
   "subtitles.creeperoverhaul.entity.stone.creeper.hurt": "Creeper herido",
   "subtitles.creeperoverhaul.entity.stone.creeper.prime": "Creeper sisea",
   "subtitles.creeperoverhaul.entity.stone.creeper.explosion": "Explosión de Creeper",
-  
   "subtitles.creeperoverhaul.entity.sand.creeper.hit": "Creeper golpeado",
   "subtitles.creeperoverhaul.entity.sand.creeper.death": "Creeper muere",
   "subtitles.creeperoverhaul.entity.sand.creeper.hurt": "Creeper herido",
   "subtitles.creeperoverhaul.entity.sand.creeper.prime": "Creeper sisea",
   "subtitles.creeperoverhaul.entity.sand.creeper.explosion": "Explosión de Creeper",
-
   "subtitles.creeperoverhaul.entity.ocean.creeper.death": "Creeper muere",
   "subtitles.creeperoverhaul.entity.ocean.creeper.hurt": "Creeper herido",
   "subtitles.creeperoverhaul.entity.ocean.creeper.inflate": "Creeper Oceánico se infla",
