@@ -1,0 +1,87 @@
+{
+  "itemGroup.creeperoverhaul.item_group": "Creeper Overhaul",
+
+  "entity.creeperoverhaul.jungle_creeper": "Creeper de la jungle",
+  "item.creeperoverhaul.jungle_creeper_spawn_egg": "Oeuf d’apparition de Creeper de la jungle",
+
+  "entity.creeperoverhaul.bamboo_creeper": "Creeper de bambou",
+  "item.creeperoverhaul.bamboo_creeper_spawn_egg": "Oeuf d’apparition de Creeper de bambou",
+
+  "entity.creeperoverhaul.desert_creeper": "Creeper du désert",
+  "item.creeperoverhaul.desert_creeper_spawn_egg": "Oeuf d’apparition de Creeper du désert",
+
+  "entity.creeperoverhaul.badlands_creeper": "Creeper des badlands",
+  "item.creeperoverhaul.badlands_creeper_spawn_egg": "Oeuf d’apparition de Creeper des badlands",
+
+  "entity.creeperoverhaul.hills_creeper": "Creeper des collines",
+  "item.creeperoverhaul.hills_creeper_spawn_egg": "Oeuf d’apparition de Creeper des collines",
+
+  "entity.creeperoverhaul.savannah_creeper": "Creeper de la savane",
+  "item.creeperoverhaul.savannah_creeper_spawn_egg": "Oeuf d’apparition de Creeper de la savane",
+
+  "entity.creeperoverhaul.mushroom_creeper": "Creeper des champignons",
+  "item.creeperoverhaul.mushroom_creeper_spawn_egg": "Oeuf d’apparition de Creeper des champignons",
+
+  "entity.creeperoverhaul.swamp_creeper": "Creeper du marais",
+  "item.creeperoverhaul.swamp_creeper_spawn_egg": "Oeuf d’apparition de Creeper du marais",
+
+  "entity.creeperoverhaul.dripstone_creeper": "Creeper de spéléothème",
+  "item.creeperoverhaul.dripstone_creeper_spawn_egg": "Oeuf d’apparition de Creeper de spéléothème",
+
+  "entity.creeperoverhaul.cave_creeper": "Creeper des cavernes",
+  "item.creeperoverhaul.cave_creeper_spawn_egg": "Oeuf d’apparition de Creeper des cavernes",
+
+  "entity.creeperoverhaul.dark_oak_creeper": "Creeper de chêne noir",
+  "item.creeperoverhaul.dark_oak_creeper_spawn_egg": "Oeuf d’apparition de Creeper de chêne noir",
+
+  "entity.creeperoverhaul.spruce_creeper": "Creeper d’épicéa",
+  "item.creeperoverhaul.spruce_creeper_spawn_egg": "Oeuf d’apparition de Creeper d’épicéa",
+
+  "entity.creeperoverhaul.beach_creeper": "Creeper de la plage",
+  "item.creeperoverhaul.beach_creeper_spawn_egg": "Oeuf d’apparition de Creeper de la plage",
+
+  "entity.creeperoverhaul.snowy_creeper": "Creeper enneigé",
+  "item.creeperoverhaul.snowy_creeper_spawn_egg": "Oeuf d’apparition de Creeper enneigé",
+
+  "entity.creeperoverhaul.ocean_creeper": "Creeper de l’océan",
+  "item.creeperoverhaul.ocean_creeper_spawn_egg": "Oeuf d’apparition de Creeper de l’océan",
+
+  "entity.creeperoverhaul.birch_creeper": "Creeper de bouleau",
+  "item.creeperoverhaul.birch_creeper_spawn_egg": "Oeuf d’apparition de Creeper de bouleau",
+
+  "block.creeperoverhaul.tiny_cactus": "Petit cactus",
+  "block.creeperoverhaul.potted_tiny_cactus": "Petit cactus en pot",
+
+  "subtitles.creeperoverhaul.entity.wood.creeper.hit": "Creeper touché",
+  "subtitles.creeperoverhaul.entity.wood.creeper.death": "Creeper meurt",
+  "subtitles.creeperoverhaul.entity.wood.creeper.hurt": "Creeper blessé",
+  "subtitles.creeperoverhaul.entity.wood.creeper.prime": "Creeper siffle",
+  "subtitles.creeperoverhaul.entity.wood.creeper.explosion": "Explosion de Creeper",
+
+  "subtitles.creeperoverhaul.entity.plant.creeper.hit": "Creeper touché",
+  "subtitles.creeperoverhaul.entity.plant.creeper.death": "Creeper meurt",
+  "subtitles.creeperoverhaul.entity.plant.creeper.hurt": "Creeper blessé",
+  "subtitles.creeperoverhaul.entity.plant.creeper.prime": "Creeper siffle",
+  "subtitles.creeperoverhaul.entity.plant.creeper.explosion": "Explosion de Creeper",
+
+  "subtitles.creeperoverhaul.entity.stone.creeper.hit": "Creeper touché",
+  "subtitles.creeperoverhaul.entity.stone.creeper.death": "Creeper meurt",
+  "subtitles.creeperoverhaul.entity.stone.creeper.hurt": "Creeper blessé",
+  "subtitles.creeperoverhaul.entity.stone.creeper.prime": "Creeper siffle",
+  "subtitles.creeperoverhaul.entity.stone.creeper.explosion": "Explosion de Creeper",
+
+  "subtitles.creeperoverhaul.entity.sand.creeper.hit": "Creeper touché",
+  "subtitles.creeperoverhaul.entity.sand.creeper.death": "Creeper meurt",
+  "subtitles.creeperoverhaul.entity.sand.creeper.hurt": "Creeper blessé",
+  "subtitles.creeperoverhaul.entity.sand.creeper.prime": "Creeper siffle",
+  "subtitles.creeperoverhaul.entity.sand.creeper.explosion": "Explosion de Creeper",
+
+  "subtitles.creeperoverhaul.entity.ocean.creeper.death": "Creeper meurt",
+  "subtitles.creeperoverhaul.entity.ocean.creeper.hurt": "Creeper blessé",
+  "subtitles.creeperoverhaul.entity.ocean.creeper.inflate": "Creeper de l’océan se gonfle",
+  "subtitles.creeperoverhaul.entity.ocean.creeper.deflate": "Creeper de l’océan se dégonfle",
+
+  "gui.creeperoverhaul.cosmetics": "Cosmétiques",
+  "gui.creeperoverhaul.cosmetics.login": "Se connecter à Creeper Overhaul",
+  "gui.creeperoverhaul.cosmetics.preview_in_game": "Vous devez être en jeu pour prévisualiser les cosmétiques."
+}
