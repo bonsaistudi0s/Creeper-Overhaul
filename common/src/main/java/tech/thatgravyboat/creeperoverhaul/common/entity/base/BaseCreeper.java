@@ -275,7 +275,7 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         if (readyForShearing() && PlatformUtils.isShears(stack)) {
-            shear(SoundSource.AMBIENT);
+            this.shear(SoundSource.AMBIENT);
             this.gameEvent(GameEvent.SHEAR, player);
             stack.hurtAndBreak(1, player, slot);
             return InteractionResult.sidedSuccess(this.level().isClientSide);
@@ -388,6 +388,7 @@ public class BaseCreeper extends Creeper implements GeoEntity, Shearable {
     public void shear(SoundSource soundSource) {
         this.level().playSound(null, this, SoundEvents.SNOW_GOLEM_SHEAR, soundSource, 1.0F, 1.0F);
         if (!this.level().isClientSide()) {
+            this.setSheared(true);
             this.spawnAtLocation(this.type.shearDrop().get(), 1.7F);
         }
     }
