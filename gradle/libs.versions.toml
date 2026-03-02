@@ -12,7 +12,7 @@ rcosmetics = "1.0.3"
 geckolib = "4.7"
 
 # Plugins
-resourceful-loom = "1.0.+"
+resourceful-loom = "1.0.7"
 
 [libraries]
 
